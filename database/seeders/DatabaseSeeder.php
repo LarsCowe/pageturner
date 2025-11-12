@@ -26,5 +26,15 @@ class DatabaseSeeder extends Seeder
 
         // Create test users
         User::factory(10)->create();
+
+        // Seed all other data
+        $this->call([
+            GenreSeeder::class,
+            MoodSeeder::class,
+            BookSeeder::class,
+            NewsItemSeeder::class,
+            FaqSeeder::class,
+            BookClubSeeder::class,
+        ]);
     }
 }

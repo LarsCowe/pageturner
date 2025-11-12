@@ -1,0 +1,273 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Book;
+use App\Models\Genre;
+use App\Models\Mood;
+use Illuminate\Database\Seeder;
+
+class BookSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $books = [
+            [
+                'title' => 'The Great Gatsby',
+                'author' => 'F. Scott Fitzgerald',
+                'isbn' => '9780743273565',
+                'description' => 'A classic tale of decadence and excess, set in the roaring twenties.',
+                'pages' => 180,
+                'published_date' => '1925-04-10',
+                'publisher' => 'Scribner',
+                'average_rating' => 3.93,
+                'genres' => ['Classics', 'Fiction'],
+                'moods' => ['Thought-Provoking', 'Dark'],
+            ],
+            [
+                'title' => 'To Kill a Mockingbird',
+                'author' => 'Harper Lee',
+                'isbn' => '9780061120084',
+                'description' => 'A gripping tale of racial injustice and childhood innocence in the American South.',
+                'pages' => 324,
+                'published_date' => '1960-07-11',
+                'publisher' => 'J.B. Lippincott & Co.',
+                'average_rating' => 4.27,
+                'genres' => ['Classics', 'Fiction'],
+                'moods' => ['Thought-Provoking', 'Emotional'],
+            ],
+            [
+                'title' => '1984',
+                'author' => 'George Orwell',
+                'isbn' => '9780451524935',
+                'description' => 'A dystopian social science fiction novel and cautionary tale.',
+                'pages' => 328,
+                'published_date' => '1949-06-08',
+                'publisher' => 'Secker & Warburg',
+                'average_rating' => 4.19,
+                'genres' => ['Classics', 'Science Fiction'],
+                'moods' => ['Dark', 'Thought-Provoking'],
+            ],
+            [
+                'title' => 'Pride and Prejudice',
+                'author' => 'Jane Austen',
+                'isbn' => '9780141439518',
+                'description' => 'A romantic novel of manners set in Georgian England.',
+                'pages' => 432,
+                'published_date' => '1813-01-28',
+                'publisher' => 'T. Egerton',
+                'average_rating' => 4.28,
+                'genres' => ['Classics', 'Romance'],
+                'moods' => ['Romantic', 'Cozy'],
+            ],
+            [
+                'title' => 'Harry Potter and the Philosopher\'s Stone',
+                'author' => 'J.K. Rowling',
+                'isbn' => '9780747532699',
+                'description' => 'A young wizard begins his magical journey at Hogwarts School.',
+                'pages' => 223,
+                'published_date' => '1997-06-26',
+                'publisher' => 'Bloomsbury',
+                'average_rating' => 4.47,
+                'genres' => ['Fantasy', 'Young Adult'],
+                'moods' => ['Adventurous', 'Whimsical'],
+            ],
+            [
+                'title' => 'The Hobbit',
+                'author' => 'J.R.R. Tolkien',
+                'isbn' => '9780547928227',
+                'description' => 'A reluctant hobbit embarks on an unexpected adventure.',
+                'pages' => 310,
+                'published_date' => '1937-09-21',
+                'publisher' => 'George Allen & Unwin',
+                'average_rating' => 4.28,
+                'genres' => ['Fantasy', 'Fiction'],
+                'moods' => ['Adventurous', 'Whimsical'],
+            ],
+            [
+                'title' => 'The Catcher in the Rye',
+                'author' => 'J.D. Salinger',
+                'isbn' => '9780316769174',
+                'description' => 'The experiences of a teenage boy dealing with complex issues of innocence and connection.',
+                'pages' => 277,
+                'published_date' => '1951-07-16',
+                'publisher' => 'Little, Brown and Company',
+                'average_rating' => 3.81,
+                'genres' => ['Classics', 'Fiction'],
+                'moods' => ['Thought-Provoking', 'Emotional'],
+            ],
+            [
+                'title' => 'The Lord of the Rings',
+                'author' => 'J.R.R. Tolkien',
+                'isbn' => '9780544003415',
+                'description' => 'An epic high-fantasy tale of friendship and the fight against evil.',
+                'pages' => 1178,
+                'published_date' => '1954-07-29',
+                'publisher' => 'George Allen & Unwin',
+                'average_rating' => 4.52,
+                'genres' => ['Fantasy', 'Fiction'],
+                'moods' => ['Adventurous', 'Intense'],
+            ],
+            [
+                'title' => 'The Da Vinci Code',
+                'author' => 'Dan Brown',
+                'isbn' => '9780307474278',
+                'description' => 'A mystery thriller following symbologist Robert Langdon.',
+                'pages' => 489,
+                'published_date' => '2003-03-18',
+                'publisher' => 'Doubleday',
+                'average_rating' => 3.89,
+                'genres' => ['Mystery', 'Thriller'],
+                'moods' => ['Suspenseful', 'Adventurous'],
+            ],
+            [
+                'title' => 'The Hunger Games',
+                'author' => 'Suzanne Collins',
+                'isbn' => '9780439023481',
+                'description' => 'In a dystopian future, a teenage girl volunteers for a televised death match.',
+                'pages' => 374,
+                'published_date' => '2008-09-14',
+                'publisher' => 'Scholastic Press',
+                'average_rating' => 4.32,
+                'genres' => ['Science Fiction', 'Young Adult'],
+                'moods' => ['Intense', 'Suspenseful'],
+            ],
+            [
+                'title' => 'Gone Girl',
+                'author' => 'Gillian Flynn',
+                'isbn' => '9780307588371',
+                'description' => 'A psychological thriller about a wife who mysteriously disappears.',
+                'pages' => 422,
+                'published_date' => '2012-06-05',
+                'publisher' => 'Crown Publishing',
+                'average_rating' => 4.06,
+                'genres' => ['Mystery', 'Thriller'],
+                'moods' => ['Dark', 'Suspenseful'],
+            ],
+            [
+                'title' => 'The Girl on the Train',
+                'author' => 'Paula Hawkins',
+                'isbn' => '9781594633669',
+                'description' => 'A psychological thriller told from three different perspectives.',
+                'pages' => 336,
+                'published_date' => '2015-01-13',
+                'publisher' => 'Riverhead Books',
+                'average_rating' => 3.92,
+                'genres' => ['Mystery', 'Thriller'],
+                'moods' => ['Suspenseful', 'Dark'],
+            ],
+            [
+                'title' => 'The Alchemist',
+                'author' => 'Paulo Coelho',
+                'isbn' => '9780062315007',
+                'description' => 'A philosophical story about following your dreams.',
+                'pages' => 208,
+                'published_date' => '1988-01-01',
+                'publisher' => 'HarperOne',
+                'average_rating' => 3.91,
+                'genres' => ['Fiction', 'Self-Help'],
+                'moods' => ['Uplifting', 'Thought-Provoking'],
+            ],
+            [
+                'title' => 'Educated',
+                'author' => 'Tara Westover',
+                'isbn' => '9780399590504',
+                'description' => 'A memoir about a woman who grows up in a survivalist family.',
+                'pages' => 334,
+                'published_date' => '2018-02-20',
+                'publisher' => 'Random House',
+                'average_rating' => 4.49,
+                'genres' => ['Biography', 'Non-Fiction'],
+                'moods' => ['Uplifting', 'Emotional'],
+            ],
+            [
+                'title' => 'Becoming',
+                'author' => 'Michelle Obama',
+                'isbn' => '9781524763138',
+                'description' => 'The memoir of former First Lady of the United States Michelle Obama.',
+                'pages' => 448,
+                'published_date' => '2018-11-13',
+                'publisher' => 'Crown',
+                'average_rating' => 4.53,
+                'genres' => ['Biography', 'Non-Fiction'],
+                'moods' => ['Uplifting', 'Thought-Provoking'],
+            ],
+            [
+                'title' => 'The Silent Patient',
+                'author' => 'Alex Michaelides',
+                'isbn' => '9781250301697',
+                'description' => 'A woman shoots her husband and then never speaks another word.',
+                'pages' => 336,
+                'published_date' => '2019-02-05',
+                'publisher' => 'Celadon Books',
+                'average_rating' => 4.07,
+                'genres' => ['Mystery', 'Thriller'],
+                'moods' => ['Suspenseful', 'Dark'],
+            ],
+            [
+                'title' => 'Where the Crawdads Sing',
+                'author' => 'Delia Owens',
+                'isbn' => '9780735219090',
+                'description' => 'A murder mystery set in the marshlands of North Carolina.',
+                'pages' => 384,
+                'published_date' => '2018-08-14',
+                'publisher' => 'G.P. Putnam\'s Sons',
+                'average_rating' => 4.46,
+                'genres' => ['Fiction', 'Mystery'],
+                'moods' => ['Emotional', 'Suspenseful'],
+            ],
+            [
+                'title' => 'The Night Circus',
+                'author' => 'Erin Morgenstern',
+                'isbn' => '9780307744432',
+                'description' => 'A magical competition between two young illusionists.',
+                'pages' => 387,
+                'published_date' => '2011-09-13',
+                'publisher' => 'Doubleday',
+                'average_rating' => 4.03,
+                'genres' => ['Fantasy', 'Fiction'],
+                'moods' => ['Whimsical', 'Romantic'],
+            ],
+            [
+                'title' => 'Circe',
+                'author' => 'Madeline Miller',
+                'isbn' => '9780316556347',
+                'description' => 'A reimagining of the Greek myth of Circe, the nymph and sorceress.',
+                'pages' => 393,
+                'published_date' => '2018-04-10',
+                'publisher' => 'Little, Brown and Company',
+                'average_rating' => 4.30,
+                'genres' => ['Fantasy', 'Historical Fiction'],
+                'moods' => ['Thought-Provoking', 'Emotional'],
+            ],
+            [
+                'title' => 'The Seven Husbands of Evelyn Hugo',
+                'author' => 'Taylor Jenkins Reid',
+                'isbn' => '9781501139239',
+                'description' => 'An aging Hollywood icon finally tells the truth about her glamorous life.',
+                'pages' => 388,
+                'published_date' => '2017-06-13',
+                'publisher' => 'Atria Books',
+                'average_rating' => 4.45,
+                'genres' => ['Fiction', 'Historical Fiction'],
+                'moods' => ['Emotional', 'Romantic'],
+            ],
+        ];
+
+        foreach ($books as $bookData) {
+            $genreNames = $bookData['genres'];
+            $moodNames = $bookData['moods'];
+            unset($bookData['genres'], $bookData['moods']);
+
+            $book = Book::create($bookData);
+
+            // Attach genres
+            $genreIds = Genre::whereIn('name', $genreNames)->pluck('id');
+            $book->genres()->attach($genreIds);
+
+            // Attach moods
+            $moodIds = Mood::whereIn('name', $moodNames)->pluck('id');
+            $book->moods()->attach($moodIds);
+        }
+    }
+}
