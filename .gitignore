@@ -22,3 +22,6 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# GitHub Copilot instructions (private)
+/.github/instructions/
