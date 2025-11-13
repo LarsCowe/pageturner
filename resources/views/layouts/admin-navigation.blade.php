@@ -12,9 +12,14 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')" class="text-white">
+                    <a href="{{ route('admin.dashboard') }}" 
+                       class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('admin.dashboard') ? 'border-white text-white' : 'border-transparent text-indigo-100 hover:text-white hover:border-indigo-400' }} text-sm font-medium leading-5 focus:outline-none transition duration-150 ease-in-out">
                         {{ __('Dashboard') }}
-                    </x-nav-link>
+                    </a>
+                    <a href="{{ route('admin.news.index') }}" 
+                       class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('admin.news.*') ? 'border-white text-white' : 'border-transparent text-indigo-100 hover:text-white hover:border-indigo-400' }} text-sm font-medium leading-5 focus:outline-none transition duration-150 ease-in-out">
+                        {{ __('News') }}
+                    </a>
                 </div>
             </div>
 
