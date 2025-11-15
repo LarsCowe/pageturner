@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\FaqController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,6 +17,9 @@ Route::get('/dashboard', function () {
 // Public News Routes
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{newsItem}', [NewsController::class, 'show'])->name('news.show');
+
+// Public FAQ Route
+Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
