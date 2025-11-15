@@ -20,6 +20,10 @@
                        class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('admin.news.*') ? 'border-white text-white' : 'border-transparent text-indigo-100 hover:text-white hover:border-indigo-400' }} text-sm font-medium leading-5 focus:outline-none transition duration-150 ease-in-out">
                         {{ __('News') }}
                     </a>
+                    <a href="{{ route('admin.faq.categories.index') }}" 
+                       class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('admin.faq.*') ? 'border-white text-white' : 'border-transparent text-indigo-100 hover:text-white hover:border-indigo-400' }} text-sm font-medium leading-5 focus:outline-none transition duration-150 ease-in-out">
+                        {{ __('FAQ') }}
+                    </a>
                 </div>
             </div>
 
@@ -78,6 +82,12 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.news.index')" :active="request()->routeIs('admin.news.*')">
+                {{ __('News') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.faq.categories.index')" :active="request()->routeIs('admin.faq.*')">
+                {{ __('FAQ') }}
             </x-responsive-nav-link>
         </div>
 
