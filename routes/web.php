@@ -36,6 +36,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // FAQ Management
     Route::prefix('faq')->name('faq.')->group(function () {
         Route::resource('categories', \App\Http\Controllers\Admin\FaqCategoryController::class);
+        Route::resource('items', \App\Http\Controllers\Admin\FaqItemController::class);
     });
 });
 

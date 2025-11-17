@@ -81,12 +81,13 @@
                                 <div class="p-6">
                                     <div class="flex justify-between items-center mb-4">
                                         <h3 class="text-lg font-semibold text-gray-900">Questions in this category</h3>
-                                        <button class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition">
+                                        <a href="{{ route('admin.faq.items.create', ['category' => $category->id]) }}" 
+                                           class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition">
                                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                                             </svg>
                                             New Question
-                                        </button>
+                                        </a>
                                     </div>
 
                                     <div class="space-y-3">
@@ -109,9 +110,18 @@
                                                 </button>
                                                 <div class="faq-content hidden px-4 pb-3 bg-gray-50">
                                                     <p class="text-gray-600 text-sm leading-relaxed mb-3 ml-8">{{ $item->answer }}</p>
-                                                    <div class="flex space-x-2 ml-8">
-                                                        <button class="text-sm text-blue-600 hover:text-blue-700">Edit</button>
-                                                        <button class="text-sm text-red-600 hover:text-red-700">Delete</button>
+                                                    <div class="flex space-x-3 ml-8">
+                                                        <a href="{{ route('admin.faq.items.edit', $item->id) }}" 
+                                                           class="text-sm text-blue-600 hover:text-blue-700">Edit</a>
+                                                        <span class="text-gray-300">|</span>
+                                                        <form action="{{ route('admin.faq.items.destroy', $item->id) }}" 
+                                                              method="POST" 
+                                                              class="inline"
+                                                              onsubmit="return confirm('Are you sure you want to delete this FAQ item?');">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="text-sm text-red-600 hover:text-red-700">Delete</button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
