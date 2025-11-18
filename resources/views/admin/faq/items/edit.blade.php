@@ -84,12 +84,13 @@
                                   name="answer" 
                                   rows="8"
                                   required
+                                  minlength="10"
                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('answer') border-red-500 @enderror">{{ old('answer', $item->answer) }}</textarea>
                         @error('answer')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                         <p class="mt-2 text-sm text-gray-500">
-                            You can use markdown formatting for better readability.
+                            You can use markdown formatting for better readability. Minimum 10 characters.
                         </p>
                     </div>
 

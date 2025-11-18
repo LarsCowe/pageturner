@@ -104,11 +104,11 @@
                                                         </svg>
                                                         <span class="font-medium text-gray-900 pr-4">{{ $item->question }}</span>
                                                     </div>
-                                                    <svg class="w-5 h-5 text-gray-400 transform transition-transform faq-icon flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg class="w-5 h-5 text-gray-400 faq-icon flex-shrink-0" style="transition: transform 0.3s ease;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                                                     </svg>
                                                 </button>
-                                                <div class="faq-content hidden px-4 pb-3 bg-gray-50">
+                                                <div class="faq-content hidden px-4 pb-3 bg-gray-50" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
                                                     <p class="text-gray-600 text-sm leading-relaxed mb-3 ml-8">{{ $item->answer }}</p>
                                                     <div class="flex space-x-3 ml-8">
                                                         <a href="{{ route('admin.faq.items.edit', $item->id) }}" 
@@ -154,26 +154,55 @@
 
     <script>
         function selectCategory(id) {
-            // Hide all category contents
-            document.querySelectorAll('.category-content').forEach(el => el.classList.add('hidden'));
-            // Show selected category
-            document.getElementById('category-' + id).classList.remove('hidden');
+            // Hide all category contents with fade
+            document.querySelectorAll('.category-content').forEach(el => {
+                el.style.opacity = '0';
+                setTimeout(() => el.classList.add('hidden'), 150);
+            });
+            
+            // Show selected category with fade
+            const selected = document.getElementById('category-' + id);
+            setTimeout(() => {
+                selected.classList.remove('hidden');
+                setTimeout(() => selected.style.opacity = '1', 10);
+            }, 150);
             
             // Update category item styling
             document.querySelectorAll('.category-item').forEach(el => {
                 el.classList.remove('bg-blue-50', 'border', 'border-blue-200');
                 el.classList.add('hover:border', 'hover:border-gray-200');
             });
-            document.querySelector('[data-category-id="' + id + '"]').classList.add('bg-blue-50', 'border', 'border-blue-200');
-            document.querySelector('[data-category-id="' + id + '"]').classList.remove('hover:border', 'hover:border-gray-200');
+            const categoryBtn = document.querySelector('[data-category-id="' + id + '"]');
+            categoryBtn.classList.add('bg-blue-50', 'border', 'border-blue-200');
+            categoryBtn.classList.remove('hover:border', 'hover:border-gray-200');
         }
 
         function toggleFaqItem(button) {
             const content = button.nextElementSibling;
             const icon = button.querySelector('.faq-icon');
+            const isHidden = content.classList.contains('hidden');
             
-            content.classList.toggle('hidden');
-            icon.classList.toggle('rotate-180');
+            if (isHidden) {
+                content.classList.remove('hidden');
+                // Trigger reflow for smooth animation
+                content.offsetHeight;
+                content.style.maxHeight = content.scrollHeight + 'px';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.style.maxHeight = '0';
+                icon.style.transform = 'rotate(0deg)';
+                setTimeout(() => content.classList.add('hidden'), 300);
+            }
         }
+
+        // Initialize opacity for transitions
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.category-content').forEach(el => {
+                el.style.transition = 'opacity 0.15s ease-in-out';
+                if (!el.classList.contains('hidden')) {
+                    el.style.opacity = '1';
+                }
+            });
+        });
     </script>
 </x-admin-layout>

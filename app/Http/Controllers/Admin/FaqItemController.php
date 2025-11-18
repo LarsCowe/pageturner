@@ -54,8 +54,17 @@ class FaqItemController extends Controller
         $validated = $request->validate([
             'faq_category_id' => 'required|exists:faq_categories,id',
             'question' => 'required|string|max:255',
-            'answer' => 'required|string',
+            'answer' => 'required|string|min:10',
             'order' => 'nullable|integer|min:0',
+        ], [
+            'faq_category_id.required' => 'Please select a category.',
+            'faq_category_id.exists' => 'The selected category is invalid.',
+            'question.required' => 'The question field is required.',
+            'question.max' => 'The question must not exceed 255 characters.',
+            'answer.required' => 'The answer field is required.',
+            'answer.min' => 'The answer must be at least 10 characters.',
+            'order.integer' => 'The order must be a valid number.',
+            'order.min' => 'The order must be at least 0.',
         ]);
 
         // If no order specified, add to end of category
@@ -90,8 +99,18 @@ class FaqItemController extends Controller
         $validated = $request->validate([
             'faq_category_id' => 'required|exists:faq_categories,id',
             'question' => 'required|string|max:255',
-            'answer' => 'required|string',
+            'answer' => 'required|string|min:10',
             'order' => 'required|integer|min:0',
+        ], [
+            'faq_category_id.required' => 'Please select a category.',
+            'faq_category_id.exists' => 'The selected category is invalid.',
+            'question.required' => 'The question field is required.',
+            'question.max' => 'The question must not exceed 255 characters.',
+            'answer.required' => 'The answer field is required.',
+            'answer.min' => 'The answer must be at least 10 characters.',
+            'order.required' => 'The order field is required.',
+            'order.integer' => 'The order must be a valid number.',
+            'order.min' => 'The order must be at least 0.',
         ]);
 
         $item->update($validated);

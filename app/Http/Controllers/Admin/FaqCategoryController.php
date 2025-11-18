@@ -36,6 +36,10 @@ class FaqCategoryController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:faq_categories,name',
+        ], [
+            'name.required' => 'The category name is required.',
+            'name.max' => 'The category name must not exceed 255 characters.',
+            'name.unique' => 'This category name already exists. Please choose a different name.',
         ]);
 
         // Auto-generate slug from name
@@ -67,7 +71,11 @@ class FaqCategoryController extends Controller
         $category = FaqCategory::findOrFail($id);
         
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:faq_categories,name,' . $id,
+            'name' => 'required|string|max:255|unique:faq_categories,name,' . $category->id,
+        ], [
+            'name.required' => 'The category name is required.',
+            'name.max' => 'The category name must not exceed 255 characters.',
+            'name.unique' => 'This category name already exists. Please choose a different name.',
         ]);
 
         // Auto-generate slug from name
