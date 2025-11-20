@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactRequest;
+use App\Mail\ContactMail;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class ContactController extends Controller
@@ -21,10 +24,22 @@ class ContactController extends Controller
      */
     public function store(ContactRequest $request): RedirectResponse
     {
-        // For now, just validate and redirect back with success message
-        // Email functionality will be added in next step
+        // Get all admin users
+        $admins = User::where('is_admin', true)->get();
+        
+        // Send email to all admins
+        foreach ($admins as $admin) {
+            Mail::to($admin->email)->send(
+                new ContactMail(
+                    contactName: $request->name,
+                    contactEmail: $request->email,
+                    contactSubject: $request->subject,
+                    contactMessage: $request->message
+                )
+            );
+        }
         
         return redirect()->route('contact.create')
-            ->with('success', 'Bedankt voor uw bericht! We nemen zo spoedig mogelijk contact met u op.');
+            ->with('success', 'Thank you for your message! We will get back to you as soon as possible.');
     }
 }
