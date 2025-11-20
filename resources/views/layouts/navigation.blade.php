@@ -24,6 +24,10 @@
                         {{ __('FAQ') }}
                     </x-nav-link>
                     
+                    <x-nav-link :href="route('contact.create')" :active="request()->routeIs('contact.*')">
+                        {{ __('Contact') }}
+                    </x-nav-link>
+                    
                     @if(Auth::user()->isAdmin())
                         <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
                             {{ __('Admin Panel') }}
@@ -91,6 +95,10 @@
             
             <x-responsive-nav-link :href="route('faq.index')" :active="request()->routeIs('faq.*')">
                 {{ __('FAQ') }}
+            </x-responsive-nav-link>
+            
+            <x-responsive-nav-link :href="route('contact.create')" :active="request()->routeIs('contact.*')">
+                {{ __('Contact') }}
             </x-responsive-nav-link>
             
             @if(Auth::user()->isAdmin())

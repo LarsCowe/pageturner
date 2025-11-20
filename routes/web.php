@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,6 +22,10 @@ Route::get('/news/{newsItem}', [NewsController::class, 'show'])->name('news.show
 // Public FAQ Routes
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
 Route::get('/faq/{category:slug}', [FaqController::class, 'show'])->name('faq.show');
+
+// Public Contact Route
+Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
