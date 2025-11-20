@@ -27,6 +27,9 @@ Route::get('/faq/{category:slug}', [FaqController::class, 'show'])->name('faq.sh
 Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
+// Public Profile Routes
+Route::get('/profile/{user:username}', [ProfileController::class, 'show'])->name('profile.show');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

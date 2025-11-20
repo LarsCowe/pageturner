@@ -23,12 +23,20 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $firstName = fake()->firstName();
+        $lastName = fake()->lastName();
+        $username = strtolower($firstName . $lastName . rand(1, 999));
+        
         return [
-            'name' => fake()->name(),
+            'name' => $firstName . ' ' . $lastName,
+            'username' => $username,
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'birthday' => fake()->dateTimeBetween('-60 years', '-18 years'),
+            'bio' => fake()->optional(0.7)->paragraph(),
+            'favorite_genres' => null, // Will be set in seeder with actual genre IDs
         ];
     }
 

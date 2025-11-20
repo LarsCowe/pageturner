@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Genre;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -22,15 +23,26 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@ehb.be',
             'password' => 'Password!321',
             'is_admin' => true,
+            'bio' => 'PageTurner administrator and book enthusiast.',
         ]);
 
-        // Create test users
-        User::factory(10)->create();
-
-        // Seed all other data
+        // Seed genres and moods first
         $this->call([
             GenreSeeder::class,
             MoodSeeder::class,
+        ]);
+
+        // Create test users with favorite genres
+        $genres = Genre::all();
+        User::factory(10)->create()->each(function ($user) use ($genres) {
+            // Assign 1-3 random favorite genres
+            $favoriteGenres = $genres->random(rand(1, 3))->pluck('id')->toArray();
+            $user->favorite_genres = $favoriteGenres;
+            $user->save();
+        });
+
+        // Seed all other data
+        $this->call([
             BookSeeder::class,
             NewsItemSeeder::class,
             FaqSeeder::class,
