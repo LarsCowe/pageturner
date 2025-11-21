@@ -21,6 +21,11 @@
                         {{ __('News') }}
                     </a>
                     
+                    <a href="{{ route('admin.users.index') }}" 
+                       class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('admin.users.*') ? 'border-white text-white' : 'border-transparent text-indigo-100 hover:text-white hover:border-indigo-400' }} text-sm font-medium leading-5 focus:outline-none transition duration-150 ease-in-out">
+                        {{ __('Users') }}
+                    </a>
+                    
                     <!-- FAQ Dropdown -->
                     <div class="relative" x-data="{ faqOpen: false }">
                         <button @click="faqOpen = !faqOpen" 
@@ -107,6 +112,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.news.index')" :active="request()->routeIs('admin.news.*')">
                 {{ __('News') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                {{ __('Users') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.faq.categories.index')" :active="request()->routeIs('admin.faq.*')">
                 {{ __('FAQ') }}

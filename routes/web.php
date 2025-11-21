@@ -41,6 +41,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::resource('news', \App\Http\Controllers\Admin\NewsController::class);
     
+    // User Management
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+    Route::post('/users/{user}/toggle-admin', [\App\Http\Controllers\Admin\UserController::class, 'toggleAdmin'])->name('users.toggle-admin');
+    
     // FAQ Management
     Route::prefix('faq')->name('faq.')->group(function () {
         Route::resource('categories', \App\Http\Controllers\Admin\FaqCategoryController::class);
