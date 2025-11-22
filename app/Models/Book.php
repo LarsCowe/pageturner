@@ -57,6 +57,7 @@ class Book extends Model
     {
         return $this->belongsToMany(User::class)
             ->withPivot('shelf', 'current_page', 'started_at', 'finished_at')
-            ->withTimestamps();
+            ->withTimestamps()
+            ->using(BookUser::class);
     }
 }

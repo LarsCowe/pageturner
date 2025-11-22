@@ -83,16 +83,91 @@
                         <div class="flex flex-wrap gap-3">
                             @auth
                                 @if($userShelf)
-                                    <button class="px-6 py-3 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-100 transition flex items-center gap-2">
-                                        <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                        </svg>
-                                        On {{ ucwords(str_replace('-', ' ', $userShelf->shelf)) }}
-                                    </button>
+                                    <!-- Book is on shelf - show status with modal -->
+                                    <div x-data="{ open: false }">
+                                        <button @click="open = true" class="px-6 py-3 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-100 transition flex items-center gap-2">
+                                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                            </svg>
+                                            <span>On {{ ucwords(str_replace('-', ' ', $userShelf->shelf)) }}</span>
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        </button>
+                                        
+                                        <!-- Modal -->
+                                        <div x-show="open" @click.self="open = false" x-cloak
+                                             class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+                                            <div @click.away="open = false" class="bg-white rounded-xl shadow-2xl max-w-xs w-full p-5">
+                                                <div class="flex items-center justify-between mb-4">
+                                                    <h3 class="text-lg font-bold text-gray-900">Manage Shelf</h3>
+                                                    <button @click="open = false" class="text-gray-400 hover:text-gray-600 transition">
+                                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                                
+                                                <div class="space-y-2 mb-4">
+                                                    @foreach(['currently-reading' => 'Currently Reading', 'want-to-read' => 'Want to Read', 'read' => 'Read'] as $shelfKey => $shelfLabel)
+                                                        <form action="{{ route('books.shelf.update', $book) }}" method="POST">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <input type="hidden" name="shelf" value="{{ $shelfKey }}">
+                                                            <button type="submit" class="w-full text-left px-4 py-2.5 rounded-lg text-sm transition {{ $userShelf->shelf === $shelfKey ? 'bg-indigo-600 text-white font-medium' : 'bg-gray-100 hover:bg-gray-200 text-gray-700' }}">
+                                                                {{ $shelfLabel }}
+                                                            </button>
+                                                        </form>
+                                                    @endforeach
+                                                </div>
+                                                
+                                                <form action="{{ route('books.shelf.remove', $book) }}" method="POST" class="pt-3 border-t border-gray-200">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="w-full px-4 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 text-sm font-medium rounded-lg transition">
+                                                        Remove from Shelf
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @else
-                                    <button class="px-6 py-3 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-100 transition">
-                                        Add to Shelf
-                                    </button>
+                                    <!-- Book not on shelf - show modal with options -->
+                                    <div x-data="{ open: false }">
+                                        <button @click="open = true" class="px-6 py-3 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-100 transition flex items-center gap-2">
+                                            <span>Add to Shelf</span>
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        </button>
+                                        
+                                        <!-- Modal -->
+                                        <div x-show="open" @click.self="open = false" x-cloak
+                                             class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+                                            <div @click.away="open = false" class="bg-white rounded-xl shadow-2xl max-w-xs w-full p-5">
+                                                <div class="flex items-center justify-between mb-4">
+                                                    <h3 class="text-lg font-bold text-gray-900">Add to Shelf</h3>
+                                                    <button @click="open = false" class="text-gray-400 hover:text-gray-600 transition">
+                                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                                
+                                                <div class="space-y-2">
+                                                    @foreach(['currently-reading' => 'Currently Reading', 'want-to-read' => 'Want to Read', 'read' => 'Read'] as $shelfKey => $shelfLabel)
+                                                        <form action="{{ route('books.shelf.add', $book) }}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="shelf" value="{{ $shelfKey }}">
+                                                            <button type="submit" class="w-full text-left px-4 py-2.5 bg-gray-100 hover:bg-indigo-600 hover:text-white text-gray-700 rounded-lg text-sm transition font-medium">
+                                                                {{ $shelfLabel }}
+                                                            </button>
+                                                        </form>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endif
                                 <button class="px-6 py-3 bg-white/10 backdrop-blur-sm text-white rounded-lg font-semibold hover:bg-white/20 transition border border-white/20">
                                     Write a Review

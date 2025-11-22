@@ -24,6 +24,13 @@ Route::get('/news/{newsItem}', [NewsController::class, 'show'])->name('news.show
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
 Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
 
+// Shelf Management Routes (authenticated)
+Route::middleware('auth')->group(function () {
+    Route::post('/books/{book}/shelf', [BookController::class, 'addToShelf'])->name('books.shelf.add');
+    Route::patch('/books/{book}/shelf', [BookController::class, 'updateShelf'])->name('books.shelf.update');
+    Route::delete('/books/{book}/shelf', [BookController::class, 'removeFromShelf'])->name('books.shelf.remove');
+});
+
 // Public FAQ Routes
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
 Route::get('/faq/{category:slug}', [FaqController::class, 'show'])->name('faq.show');
