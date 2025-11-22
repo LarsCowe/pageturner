@@ -33,7 +33,7 @@
 
             <!-- Filters -->
             <div class="mb-6 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <form method="GET" action="{{ route('admin.faq.items.index') }}" id="filterForm" class="flex gap-4">
+                <form method="GET" action="{{ route('admin.faq.items.index') }}" class="flex gap-4">
                     <div class="flex-1">
                         <label for="search" class="block text-sm font-medium text-gray-700 mb-2">
                             Search
@@ -61,24 +61,14 @@
                             @endforeach
                         </select>
                     </div>
+                    
+                    <div class="self-end">
+                        <button type="submit" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                            Filter
+                        </button>
+                    </div>
                 </form>
             </div>
-
-            <script>
-                // Auto-submit form on category change
-                document.getElementById('category').addEventListener('change', function() {
-                    document.getElementById('filterForm').submit();
-                });
-
-                // Auto-submit form on search input with debounce
-                let searchTimeout;
-                document.getElementById('search').addEventListener('input', function() {
-                    clearTimeout(searchTimeout);
-                    searchTimeout = setTimeout(function() {
-                        document.getElementById('filterForm').submit();
-                    }, 500); // Wait 500ms after user stops typing
-                });
-            </script>
 
             <!-- Items Table -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">

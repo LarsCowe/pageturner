@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,6 +19,9 @@ Route::get('/dashboard', function () {
 // Public News Routes
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{newsItem}', [NewsController::class, 'show'])->name('news.show');
+
+// Public Books Routes
+Route::get('/books', [BookController::class, 'index'])->name('books.index');
 
 // Public FAQ Routes
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');

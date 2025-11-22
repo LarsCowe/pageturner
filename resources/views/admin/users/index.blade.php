@@ -31,21 +31,23 @@
                 <div class="p-6">
                     <!-- Filters -->
                     <div class="mb-6 flex gap-4">
-                        <form method="GET" action="{{ route('admin.users.index') }}" class="flex gap-4 flex-1" id="filterForm">
+                        <form method="GET" action="{{ route('admin.users.index') }}" class="flex gap-4 flex-1">
                             <input type="text" 
                                    name="search" 
                                    placeholder="Search by name, email, or username..." 
                                    value="{{ request('search') }}"
-                                   onchange="this.form.submit()"
                                    class="flex-1 rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
                             
                             <select name="role" 
-                                    onchange="this.form.submit()"
                                     class="rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
                                 <option value="">All Roles</option>
                                 <option value="admin" {{ request('role') === 'admin' ? 'selected' : '' }}>Admins</option>
                                 <option value="user" {{ request('role') === 'user' ? 'selected' : '' }}>Regular Users</option>
                             </select>
+                            
+                            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                                Filter
+                            </button>
                             
                             @if(request('search') || request('role'))
                                 <a href="{{ route('admin.users.index') }}" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
