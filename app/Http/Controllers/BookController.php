@@ -42,4 +42,23 @@ class BookController extends Controller
 
         return view('books.index', compact('books'));
     }
+
+    /**
+     * Display a single book with all details.
+     */
+    public function show(Book $book): View
+    {
+        // Eager load relationships
+        $book->load(['genres', 'moods', 'reviews.user']);
+
+        // Get user's shelf status for this book (if authenticated)
+        $userShelf = null;
+        if (auth()->check()) {
+            $userShelf = $book->users()
+                ->where('user_id', auth()->id())
+                ->first()?->pivot;
+        }
+
+        return view('books.show', compact('book', 'userShelf'));
+    }
 }

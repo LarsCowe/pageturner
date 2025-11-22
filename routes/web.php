@@ -22,6 +22,7 @@ Route::get('/news/{newsItem}', [NewsController::class, 'show'])->name('news.show
 
 // Public Books Routes
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
+Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
 
 // Public FAQ Routes
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
