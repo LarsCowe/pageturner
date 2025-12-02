@@ -53,14 +53,14 @@
                                 <span>•</span>
                                 <span>{{ $book->pages }} pages</span>
                             @endif
-                            @if($book->average_rating > 0)
+                            @if($book->reviews_count > 0)
                                 <span>•</span>
                                 <div class="flex items-center gap-1">
                                     <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                                         <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                     </svg>
-                                    <span class="font-semibold text-white">{{ number_format($book->average_rating, 1) }}</span>
-                                    <span class="text-gray-400">({{ $book->ratings_count }})</span>
+                                    <span class="font-semibold text-white">{{ $book->calculated_rating }}</span>
+                                    <span class="text-gray-400">({{ $book->reviews_count }} {{ Str::plural('review', $book->reviews_count) }})</span>
                                 </div>
                             @endif
                         </div>
@@ -169,9 +169,74 @@
                                         </div>
                                     </div>
                                 @endif
-                                <button class="px-6 py-3 bg-white/10 backdrop-blur-sm text-white rounded-lg font-semibold hover:bg-white/20 transition border border-white/20">
-                                    Write a Review
-                                </button>
+                                <!-- Write Review Modal -->
+                                <div x-data="{ open: false, rating: 0, hoverRating: 0 }">
+                                    <button @click="open = true" class="px-6 py-3 bg-white/10 backdrop-blur-sm text-white rounded-lg font-semibold hover:bg-white/20 transition border border-white/20">
+                                        Write a Review
+                                    </button>
+                                    
+                                    <!-- Modal -->
+                                    <div x-show="open" @click.self="open = false" x-cloak
+                                         class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+                                        <div @click.away="open = false" class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6">
+                                            <div class="flex items-center justify-between mb-6">
+                                                <h3 class="text-xl font-bold text-gray-900">Write a Review</h3>
+                                                <button @click="open = false" class="text-gray-400 hover:text-gray-600 transition">
+                                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                            
+                                            <form action="{{ route('reviews.store', $book) }}" method="POST">
+                                                @csrf
+                                                
+                                                <!-- Star Rating -->
+                                                <div class="mb-6">
+                                                    <label class="block text-sm font-medium text-gray-700 mb-2">Your Rating <span class="text-red-500">*</span></label>
+                                                    <div class="flex items-center gap-1">
+                                                        <template x-for="star in 5" :key="star">
+                                                            <button type="button" 
+                                                                    @click="rating = star" 
+                                                                    @mouseenter="hoverRating = star" 
+                                                                    @mouseleave="hoverRating = 0"
+                                                                    class="focus:outline-none transition-transform hover:scale-110">
+                                                                <svg class="w-8 h-8 transition-colors" 
+                                                                     :class="(hoverRating || rating) >= star ? 'text-yellow-400' : 'text-gray-300'"
+                                                                     fill="currentColor" viewBox="0 0 20 20">
+                                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                                </svg>
+                                                            </button>
+                                                        </template>
+                                                        <span class="ml-2 text-sm text-gray-600" x-text="rating ? rating + ' star' + (rating > 1 ? 's' : '') : 'Select rating'"></span>
+                                                    </div>
+                                                    <input type="hidden" name="rating" x-model="rating" required>
+                                                </div>
+                                                
+                                                <!-- Review Text -->
+                                                <div class="mb-6">
+                                                    <label for="review_text" class="block text-sm font-medium text-gray-700 mb-2">Your Review (optional)</label>
+                                                    <textarea name="review_text" id="review_text" rows="5" 
+                                                              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none"
+                                                              placeholder="Share your thoughts about this book..."></textarea>
+                                                </div>
+                                                
+                                                <!-- Submit Button -->
+                                                <div class="flex justify-end gap-3">
+                                                    <button type="button" @click="open = false" class="px-5 py-2.5 text-gray-700 font-medium hover:bg-gray-100 rounded-lg transition">
+                                                        Cancel
+                                                    </button>
+                                                    <button type="submit" 
+                                                            :disabled="!rating"
+                                                            :class="rating ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-gray-300 cursor-not-allowed'"
+                                                            class="px-5 py-2.5 text-white font-medium rounded-lg transition">
+                                                        Post Review
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             @else
                                 <a href="{{ route('login') }}" class="px-6 py-3 bg-white text-gray-900 rounded-lg font-semibold hover:bg-gray-100 transition">
                                     Sign in to Track
@@ -187,6 +252,26 @@
     <!-- Main Content -->
     <div class="bg-gray-50 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            
+            <!-- Flash Messages -->
+            @if(session('success'))
+                <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg flex items-center gap-3">
+                    <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    {{ session('success') }}
+                </div>
+            @endif
+            
+            @if(session('error'))
+                <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-center gap-3">
+                    <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                    </svg>
+                    {{ session('error') }}
+                </div>
+            @endif
+            
             <div class="grid lg:grid-cols-3 gap-6">
                 <!-- Main Content Column -->
                 <div class="lg:col-span-2 space-y-6">
@@ -210,7 +295,7 @@
                             
                             <div class="space-y-6">
                                 @foreach($book->reviews->take(5) as $review)
-                                    <div class="flex gap-4">
+                                    <div class="flex gap-4" x-data="{ editing: false, editRating: {{ $review->rating }}, editHoverRating: 0 }">
                                         <!-- Avatar -->
                                         <div class="flex-shrink-0">
                                             @if($review->user->avatar)
@@ -228,19 +313,92 @@
                                         
                                         <!-- Review Content -->
                                         <div class="flex-1 min-w-0">
-                                            <div class="flex items-center gap-2 mb-1">
-                                                <span class="font-semibold text-gray-900">{{ $review->user->name }}</span>
-                                                <div class="flex items-center gap-1">
-                                                    @for($i = 1; $i <= 5; $i++)
-                                                        <svg class="w-4 h-4 {{ $i <= $review->rating ? 'text-yellow-400' : 'text-gray-300' }}" 
-                                                             fill="currentColor" viewBox="0 0 20 20">
-                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
-                                                    @endfor
+                                            <!-- View Mode -->
+                                            <div x-show="!editing">
+                                                <div class="flex items-center justify-between mb-1">
+                                                    <div class="flex items-center gap-2">
+                                                        <span class="font-semibold text-gray-900">{{ $review->user->name }}</span>
+                                                        <div class="flex items-center gap-1">
+                                                            @for($i = 1; $i <= 5; $i++)
+                                                                <svg class="w-4 h-4 {{ $i <= $review->rating ? 'text-yellow-400' : 'text-gray-300' }}" 
+                                                                     fill="currentColor" viewBox="0 0 20 20">
+                                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                                </svg>
+                                                            @endfor
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <!-- Edit/Delete buttons (only for owner or admin) -->
+                                                    @auth
+                                                        @if(auth()->id() === $review->user_id || auth()->user()->is_admin)
+                                                            <div class="flex items-center gap-2">
+                                                                @if(auth()->id() === $review->user_id)
+                                                                    <button @click="editing = true" class="text-gray-400 hover:text-indigo-600 transition" title="Edit review">
+                                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                                        </svg>
+                                                                    </button>
+                                                                @endif
+                                                                <form action="{{ route('reviews.destroy', $review) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this review?')">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="text-gray-400 hover:text-red-600 transition" title="Delete review">
+                                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                                        </svg>
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        @endif
+                                                    @endauth
                                                 </div>
+                                                <p class="text-sm text-gray-500 mb-2">{{ $review->created_at->diffForHumans() }}</p>
+                                                @if($review->review_text)
+                                                    <p class="text-gray-700 leading-relaxed">{{ $review->review_text }}</p>
+                                                @endif
                                             </div>
-                                            <p class="text-sm text-gray-500 mb-2">{{ $review->created_at->diffForHumans() }}</p>
-                                            <p class="text-gray-700 leading-relaxed">{{ $review->review }}</p>
+                                            
+                                            <!-- Edit Mode -->
+                                            <div x-show="editing" x-cloak>
+                                                <form action="{{ route('reviews.update', $review) }}" method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    
+                                                    <!-- Star Rating -->
+                                                    <div class="mb-3">
+                                                        <div class="flex items-center gap-1">
+                                                            <template x-for="star in 5" :key="star">
+                                                                <button type="button" 
+                                                                        @click="editRating = star" 
+                                                                        @mouseenter="editHoverRating = star" 
+                                                                        @mouseleave="editHoverRating = 0"
+                                                                        class="focus:outline-none transition-transform hover:scale-110">
+                                                                    <svg class="w-6 h-6 transition-colors" 
+                                                                         :class="(editHoverRating || editRating) >= star ? 'text-yellow-400' : 'text-gray-300'"
+                                                                         fill="currentColor" viewBox="0 0 20 20">
+                                                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                                    </svg>
+                                                                </button>
+                                                            </template>
+                                                        </div>
+                                                        <input type="hidden" name="rating" x-model="editRating">
+                                                    </div>
+                                                    
+                                                    <!-- Review Text -->
+                                                    <textarea name="review_text" rows="3" 
+                                                              class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none mb-3">{{ $review->review_text }}</textarea>
+                                                    
+                                                    <!-- Buttons -->
+                                                    <div class="flex gap-2">
+                                                        <button type="submit" class="px-3 py-1.5 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition">
+                                                            Save
+                                                        </button>
+                                                        <button type="button" @click="editing = false; editRating = {{ $review->rating }}" class="px-3 py-1.5 text-gray-600 text-sm font-medium hover:bg-gray-100 rounded-lg transition">
+                                                            Cancel
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                     @if(!$loop->last)

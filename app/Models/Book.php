@@ -27,6 +27,25 @@ class Book extends Model
     ];
 
     /**
+     * Get the calculated average rating from reviews.
+     */
+    public function getCalculatedRatingAttribute(): float
+    {
+        if ($this->reviews()->count() === 0) {
+            return 0;
+        }
+        return round($this->reviews()->avg('rating'), 1);
+    }
+
+    /**
+     * Get the actual reviews count.
+     */
+    public function getReviewsCountAttribute(): int
+    {
+        return $this->reviews()->count();
+    }
+
+    /**
      * Get the genres for the book.
      */
     public function genres(): BelongsToMany

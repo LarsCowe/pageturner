@@ -6,6 +6,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/books/{book}/shelf', [BookController::class, 'addToShelf'])->name('books.shelf.add');
     Route::patch('/books/{book}/shelf', [BookController::class, 'updateShelf'])->name('books.shelf.update');
     Route::delete('/books/{book}/shelf', [BookController::class, 'removeFromShelf'])->name('books.shelf.remove');
+    
+    // Review Routes
+    Route::post('/books/{book}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::patch('/reviews/{review}', [ReviewController::class, 'update'])->name('reviews.update');
+    Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
 
 // Public FAQ Routes
