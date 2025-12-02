@@ -1,19 +1,19 @@
 <x-app-layout>
     <!-- Hero Section with Gradient -->
-    <div class="relative bg-gradient-to-br from-indigo-600 to-indigo-800 overflow-hidden">
+    <div class="relative bg-gradient-to-br from-indigo-600 to-indigo-800 overflow-hidden pb-28">
         <div class="absolute inset-0 bg-black/10"></div>
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16">
             <div class="text-center">
-                <h1 class="text-4xl md:text-5xl font-black text-white mb-3">
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-4">
                     Hey {{ auth()->user()->name }}! 👋
                 </h1>
-                <p class="text-xl text-white/90 mb-8">Ready to dive into your next adventure?</p>
+                <p class="text-xl text-white/90">Ready to dive into your next adventure?</p>
             </div>
         </div>
         
         <!-- Wave Decoration -->
         <div class="absolute bottom-0 left-0 right-0">
-            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" class="w-full h-32">
                 <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#F9FAFB"/>
             </svg>
         </div>
