@@ -44,6 +44,7 @@ class DatabaseSeeder extends Seeder
         // Seed all other data
         $this->call([
             BookSeeder::class,
+            ReviewSeeder::class,
             NewsItemSeeder::class,
             FaqSeeder::class,
             BookClubSeeder::class,
