@@ -13,12 +13,9 @@ class BookClub extends Model
         'description',
         'image',
         'creator_id',
-        'is_private',
     ];
 
-    protected $casts = [
-        'is_private' => 'boolean',
-    ];
+    protected $casts = [];
 
     /**
      * Get the creator of the book club.

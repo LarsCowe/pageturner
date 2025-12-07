@@ -20,6 +20,10 @@
                         {{ __('Books') }}
                     </x-nav-link>
                     
+                    <x-nav-link :href="route('book-clubs.index')" :active="request()->routeIs('book-clubs.*')">
+                        {{ __('Book Clubs') }}
+                    </x-nav-link>
+                    
                     <x-nav-link :href="route('news.index')" :active="request()->routeIs('news.*')">
                         {{ __('News') }}
                     </x-nav-link>
@@ -95,6 +99,10 @@
             
             <x-responsive-nav-link :href="route('books.index')" :active="request()->routeIs('books.*')">
                 {{ __('Books') }}
+            </x-responsive-nav-link>
+            
+            <x-responsive-nav-link :href="route('book-clubs.index')" :active="request()->routeIs('book-clubs.*')">
+                {{ __('Book Clubs') }}
             </x-responsive-nav-link>
             
             <x-responsive-nav-link :href="route('news.index')" :active="request()->routeIs('news.*')">

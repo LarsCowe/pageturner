@@ -1,12 +1,6 @@
 <x-admin-layout>
     <div class="py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            @if(session('success'))
-                <div class="mb-4 p-4 bg-green-50 border border-green-200 text-green-800 rounded-lg">
-                    {{ session('success') }}
-                </div>
-            @endif
-
             <div class="bg-white rounded-lg shadow-sm overflow-hidden">
                 <div class="flex" style="min-height: 600px;">
                     <!-- Left Sidebar: Categories -->

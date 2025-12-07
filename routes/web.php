@@ -6,6 +6,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\BookClubController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,11 @@ Route::get('/news/{newsItem}', [NewsController::class, 'show'])->name('news.show
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
 Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
 
+// Public Book Club Routes
+Route::get('/book-clubs', [BookClubController::class, 'index'])->name('book-clubs.index');
+Route::get('/book-clubs/create', [BookClubController::class, 'create'])->middleware('auth')->name('book-clubs.create');
+Route::get('/book-clubs/{bookClub}', [BookClubController::class, 'show'])->name('book-clubs.show');
+
 // Shelf Management Routes (authenticated)
 Route::middleware('auth')->group(function () {
     Route::post('/books/{book}/shelf', [BookController::class, 'addToShelf'])->name('books.shelf.add');
@@ -36,6 +42,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/books/{book}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::patch('/reviews/{review}', [ReviewController::class, 'update'])->name('reviews.update');
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+    
+    // Book Club Routes
+    Route::post('/book-clubs', [BookClubController::class, 'store'])->name('book-clubs.store');
+    Route::post('/book-clubs/{bookClub}/join', [BookClubController::class, 'join'])->name('book-clubs.join');
+    Route::post('/book-clubs/{bookClub}/leave', [BookClubController::class, 'leave'])->name('book-clubs.leave');
+    Route::get('/book-clubs/{bookClub}/edit', [BookClubController::class, 'edit'])->name('book-clubs.edit');
+    Route::patch('/book-clubs/{bookClub}', [BookClubController::class, 'update'])->name('book-clubs.update');
+    Route::delete('/book-clubs/{bookClub}', [BookClubController::class, 'destroy'])->name('book-clubs.destroy');
 });
 
 // Public FAQ Routes
