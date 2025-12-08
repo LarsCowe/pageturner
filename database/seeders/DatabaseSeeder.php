@@ -45,6 +45,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             BookSeeder::class,
             ReviewSeeder::class,
+            BookUserSeeder::class,
             NewsItemSeeder::class,
             FaqSeeder::class,
             BookClubSeeder::class,
