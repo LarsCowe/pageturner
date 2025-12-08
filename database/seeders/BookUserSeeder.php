@@ -22,9 +22,9 @@ class BookUserSeeder extends Seeder
         }
 
         foreach ($users as $user) {
-            // Each user gets 8-20 books on their shelves
-            $numberOfBooks = rand(8, 20);
-            $userBooks = $books->random(min($numberOfBooks, $books->count()));
+            // Each user gets 8-20 books on their shelves (or less if not enough books)
+            $numberOfBooks = min(rand(8, 20), $books->count());
+            $userBooks = $books->random($numberOfBooks);
 
             foreach ($userBooks as $book) {
                 // Realistic distribution:
