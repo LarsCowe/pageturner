@@ -27,6 +27,27 @@ class Book extends Model
     ];
 
     /**
+     * Boot method to handle cascade deletes.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (Book $book) {
+            // Delete all reviews
+            $book->reviews()->delete();
+            
+            // Detach all relationships
+            $book->genres()->detach();
+            $book->moods()->detach();
+            $book->users()->detach();
+            
+            // Delete cover image if exists
+            if ($book->cover_image && \Illuminate\Support\Facades\Storage::disk('public')->exists($book->cover_image)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($book->cover_image);
+            }
+        });
+    }
+
+    /**
      * Get the calculated average rating from reviews.
      */
     public function getCalculatedRatingAttribute(): float

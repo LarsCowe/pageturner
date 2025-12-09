@@ -16,6 +16,10 @@
                        class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('admin.dashboard') ? 'border-white text-white' : 'border-transparent text-indigo-100 hover:text-white hover:border-indigo-400' }} text-sm font-medium leading-5 focus:outline-none transition duration-150 ease-in-out">
                         {{ __('Dashboard') }}
                     </a>
+                    <a href="{{ route('admin.books.index') }}" 
+                       class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('admin.books.*') ? 'border-white text-white' : 'border-transparent text-indigo-100 hover:text-white hover:border-indigo-400' }} text-sm font-medium leading-5 focus:outline-none transition duration-150 ease-in-out">
+                        {{ __('Books') }}
+                    </a>
                     <a href="{{ route('admin.news.index') }}" 
                        class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('admin.news.*') ? 'border-white text-white' : 'border-transparent text-indigo-100 hover:text-white hover:border-indigo-400' }} text-sm font-medium leading-5 focus:outline-none transition duration-150 ease-in-out">
                         {{ __('News') }}
