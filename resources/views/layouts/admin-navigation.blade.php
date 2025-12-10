@@ -30,6 +30,11 @@
                         {{ __('Users') }}
                     </a>
                     
+                    <a href="{{ route('admin.book-clubs.index') }}" 
+                       class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('admin.book-clubs.*') ? 'border-white text-white' : 'border-transparent text-indigo-100 hover:text-white hover:border-indigo-400' }} text-sm font-medium leading-5 focus:outline-none transition duration-150 ease-in-out">
+                        {{ __('Book Clubs') }}
+                    </a>
+                    
                     <!-- FAQ Dropdown -->
                     <div class="relative" x-data="{ faqOpen: false }">
                         <button @click="faqOpen = !faqOpen" 
@@ -114,11 +119,17 @@
             <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.books.index')" :active="request()->routeIs('admin.books.*')">
+                {{ __('Books') }}
+            </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.news.index')" :active="request()->routeIs('admin.news.*')">
                 {{ __('News') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
                 {{ __('Users') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('admin.book-clubs.index')" :active="request()->routeIs('admin.book-clubs.*')">
+                {{ __('Book Clubs') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('admin.faq.categories.index')" :active="request()->routeIs('admin.faq.*')">
                 {{ __('FAQ') }}

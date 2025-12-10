@@ -74,6 +74,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::resource('news', \App\Http\Controllers\Admin\NewsController::class);
     Route::resource('books', \App\Http\Controllers\Admin\BookController::class)->except(['show']);
+    Route::resource('book-clubs', \App\Http\Controllers\Admin\BookClubController::class)->except(['show']);
     
     // User Management
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class);

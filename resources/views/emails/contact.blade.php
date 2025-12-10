@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nieuw Contactbericht</title>
+    <title>New Contact Message</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -64,34 +64,34 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Nieuw Contactbericht</h1>
+            <h1>New Contact Message</h1>
         </div>
 
         <div class="field">
-            <div class="field-label">Van</div>
+            <div class="field-label">From</div>
             <div class="field-value">{{ $contactName }}</div>
         </div>
 
         <div class="field">
-            <div class="field-label">E-mail</div>
+            <div class="field-label">Email</div>
             <div class="field-value">
                 <a href="mailto:{{ $contactEmail }}">{{ $contactEmail }}</a>
             </div>
         </div>
 
         <div class="field">
-            <div class="field-label">Onderwerp</div>
+            <div class="field-label">Subject</div>
             <div class="field-value">{{ $contactSubject }}</div>
         </div>
 
         <div class="field">
-            <div class="field-label">Bericht</div>
+            <div class="field-label">Message</div>
             <div class="message-content">{{ $contactMessage }}</div>
         </div>
 
         <div class="footer">
-            Dit bericht is verzonden via het contactformulier op PageTurner.<br>
-            Je kunt direct reageren door te antwoorden op deze e-mail.
+            This message was sent via the contact form on PageTurner.<br>
+            You can reply directly by responding to this email.
         </div>
     </div>
 </body>

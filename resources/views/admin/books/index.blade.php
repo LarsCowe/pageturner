@@ -110,7 +110,7 @@
                                                       method="POST" 
                                                       class="inline"
                                                       x-data
-                                                      @submit.prevent="if(confirm('Weet je zeker dat je dit boek wilt verwijderen? Dit verwijdert ook alle reviews en shelf entries.')) { $el.submit(); }">
+                                                      @submit.prevent="if(confirm('Are you sure you want to delete this book? This will also delete all reviews and shelf entries.')) { $el.submit(); }">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" 
