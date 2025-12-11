@@ -108,6 +108,37 @@
                                                     </button>
                                                 </div>
                                                 
+                                                <!-- Update Reading Progress (for Currently Reading books) -->
+                                                @if($userShelf->shelf === 'currently-reading' && $book->pages)
+                                                    <form action="{{ route('books.shelf.update', $book) }}" method="POST" class="mb-4 p-4 bg-indigo-50 rounded-lg">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <input type="hidden" name="shelf" value="currently-reading">
+                                                        
+                                                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                                            Update Current Page
+                                                        </label>
+                                                        
+                                                        <div class="flex gap-2">
+                                                            <input type="number" 
+                                                                   name="current_page" 
+                                                                   min="0" 
+                                                                   max="{{ $book->pages }}"
+                                                                   value="{{ $userShelf->current_page ?? 0 }}"
+                                                                   placeholder="Page number"
+                                                                   class="flex-1 rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 text-sm">
+                                                            <button type="submit" 
+                                                                    class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition">
+                                                                Update
+                                                            </button>
+                                                        </div>
+                                                        
+                                                        <p class="text-xs text-gray-500 mt-2">
+                                                            Book has {{ $book->pages }} pages
+                                                        </p>
+                                                    </form>
+                                                @endif
+
                                                 <div class="space-y-2 mb-4">
                                                     @foreach(['currently-reading' => 'Currently Reading', 'want-to-read' => 'Want to Read', 'read' => 'Read'] as $shelfKey => $shelfLabel)
                                                         <form action="{{ route('books.shelf.update', $book) }}" method="POST">
@@ -473,7 +504,46 @@
                                                  style="width: {{ ($userShelf->current_page / $book->pages) * 100 }}%"></div>
                                         </div>
                                     </div>
+                                @else
+                                    <div class="mb-3">
+                                        <p class="text-sm text-white/80 mb-3">No progress recorded yet</p>
+                                    </div>
                                 @endif
+                                
+                                <!-- Quick Update Progress Form -->
+                                <form action="{{ route('books.shelf.update', $book) }}" method="POST" class="mb-3" x-data="{ updating: false }">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="shelf" value="currently-reading">
+                                    
+                                    <div x-show="!updating" class="flex gap-2">
+                                        <button type="button" 
+                                                @click="updating = true"
+                                                class="flex-1 px-3 py-2 bg-white/10 hover:bg-white/20 backdrop-blur text-white text-sm font-medium rounded-lg transition border border-white/20">
+                                            📖 Update Page
+                                        </button>
+                                    </div>
+                                    
+                                    <div x-show="updating" x-cloak class="flex gap-2">
+                                        <input type="number" 
+                                               name="current_page" 
+                                               min="0" 
+                                               max="{{ $book->pages }}"
+                                               value="{{ $userShelf->current_page ?? 0 }}"
+                                               placeholder="Page #"
+                                               class="flex-1 rounded-lg border-white/20 bg-white/10 backdrop-blur text-white placeholder-white/50 focus:border-white focus:ring-white text-sm">
+                                        <button type="submit" 
+                                                class="px-4 py-2 bg-white text-indigo-600 hover:bg-white/90 text-sm font-medium rounded-lg transition">
+                                            Save
+                                        </button>
+                                        <button type="button" 
+                                                @click="updating = false"
+                                                class="px-3 py-2 bg-white/10 hover:bg-white/20 text-white text-sm rounded-lg transition">
+                                            ✕
+                                        </button>
+                                    </div>
+                                </form>
+                                
                                 @if($userShelf->started_at)
                                     <p class="text-sm text-white/80">
                                         Started {{ $userShelf->started_at->format('M d, Y') }}

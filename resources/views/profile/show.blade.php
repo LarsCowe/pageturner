@@ -69,7 +69,7 @@
             </div>
 
             <!-- Statistics -->
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+            <div class="grid grid-cols-2 md:grid-cols-7 gap-4 mb-6">
                 <div class="bg-white p-4 rounded-lg shadow-sm text-center">
                     <div class="text-2xl font-bold text-indigo-600">{{ $stats['books_read'] }}</div>
                     <div class="text-sm text-gray-600">Books Read</div>
@@ -89,6 +89,14 @@
                 <div class="bg-white p-4 rounded-lg shadow-sm text-center">
                     <div class="text-2xl font-bold text-pink-600">{{ $stats['book_clubs'] }}</div>
                     <div class="text-sm text-gray-600">Book Clubs</div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm text-center border-2 border-orange-200">
+                    <div class="text-2xl font-bold text-orange-600">🔥 {{ $user->current_streak }}</div>
+                    <div class="text-sm text-gray-600">Day Streak</div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm text-center">
+                    <div class="text-2xl font-bold text-blue-600">🏆 {{ $user->longest_streak }}</div>
+                    <div class="text-sm text-gray-600">Best Streak</div>
                 </div>
             </div>
 

@@ -98,7 +98,7 @@ class BookController extends Controller
     {
         $validated = $request->validate([
             'shelf' => 'required|in:currently-reading,want-to-read,read',
-            'current_page' => 'nullable|integer|min:0'
+            'current_page' => 'nullable|integer|min:0|max:' . ($book->pages ?? 99999)
         ]);
 
         $userId = auth()->id();
@@ -111,6 +111,7 @@ class BookController extends Controller
         }
 
         $updateData = ['shelf' => $validated['shelf']];
+        $pagesRead = 0;
 
         // Handle shelf-specific timestamps
         if ($validated['shelf'] === 'currently-reading' && $userBook->pivot->shelf !== 'currently-reading') {
@@ -121,14 +122,30 @@ class BookController extends Controller
             $updateData['finished_at'] = now();
         }
 
-        // Update current_page if provided
+        // Update current_page if provided and calculate pages read
         if (isset($validated['current_page'])) {
-            $updateData['current_page'] = $validated['current_page'];
+            $oldPage = $userBook->pivot->current_page ?? 0;
+            $newPage = $validated['current_page'];
+            
+            // Only count positive progress (no negative pages if user goes back)
+            if ($newPage > $oldPage) {
+                $pagesRead = $newPage - $oldPage;
+            }
+            
+            $updateData['current_page'] = $newPage;
         }
 
         $book->users()->updateExistingPivot($userId, $updateData);
 
-        return redirect()->back()->with('success', 'Shelf updated successfully!');
+        // Log reading activity for today with pages read
+        auth()->user()->logReadingActivity($pagesRead);
+
+        $message = 'Shelf updated successfully!';
+        if ($pagesRead > 0) {
+            $message .= " You read {$pagesRead} pages today! 🎉";
+        }
+
+        return redirect()->back()->with('success', $message);
     }
 
     /**

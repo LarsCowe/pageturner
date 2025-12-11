@@ -19,42 +19,42 @@ class ProfileController extends Controller
      */
     public function show(User $user): View
     {
-        // Load relationships for statistics
+        // Load all relationships needed for the profile page
         $user->load([
             'books' => function ($query) {
-                $query->withPivot('shelf', 'finished_at');
+                $query->withPivot('shelf', 'finished_at', 'current_page', 'started_at')
+                    ->with(['genres', 'moods']);
             },
             'reviews',
             'bookClubs',
-            'createdBookClubs'
+            'createdBookClubs',
+            'readingActivities' => function ($query) {
+                // Only load recent activities for streak calculation
+                $query->where('activity_date', '>=', now()->subMonths(6))
+                    ->orderBy('activity_date', 'desc');
+            }
         ]);
 
-        // Calculate statistics
+        // Calculate statistics from loaded relationships (no additional queries)
         $stats = [
-            'books_read' => $user->books()->wherePivot('shelf', 'read')->count(),
-            'currently_reading' => $user->books()->wherePivot('shelf', 'currently-reading')->count(),
-            'want_to_read' => $user->books()->wherePivot('shelf', 'want-to-read')->count(),
-            'reviews_written' => $user->reviews()->count(),
-            'book_clubs' => $user->bookClubs()->count(),
+            'books_read' => $user->books->where('pivot.shelf', 'read')->count(),
+            'currently_reading' => $user->books->where('pivot.shelf', 'currently-reading')->count(),
+            'want_to_read' => $user->books->where('pivot.shelf', 'want-to-read')->count(),
+            'reviews_written' => $user->reviews->count(),
+            'book_clubs' => $user->bookClubs->count(),
         ];
 
-        // Get shelves with books
+        // Get shelves from loaded books (no additional queries)
         $shelves = [
-            'currently_reading' => $user->books()
-                ->wherePivot('shelf', 'currently-reading')
-                ->with(['genres', 'moods'])
-                ->take(6)
-                ->get(),
-            'read' => $user->books()
-                ->wherePivot('shelf', 'read')
-                ->with(['genres', 'moods'])
-                ->take(6)
-                ->get(),
-            'want_to_read' => $user->books()
-                ->wherePivot('shelf', 'want-to-read')
-                ->with(['genres', 'moods'])
-                ->take(6)
-                ->get(),
+            'currently_reading' => $user->books
+                ->where('pivot.shelf', 'currently-reading')
+                ->take(6),
+            'read' => $user->books
+                ->where('pivot.shelf', 'read')
+                ->take(6),
+            'want_to_read' => $user->books
+                ->where('pivot.shelf', 'want-to-read')
+                ->take(6),
         ];
 
         return view('profile.show', compact('user', 'stats', 'shelves'));

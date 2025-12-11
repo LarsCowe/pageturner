@@ -49,6 +49,7 @@ class DatabaseSeeder extends Seeder
             NewsItemSeeder::class,
             FaqSeeder::class,
             BookClubSeeder::class,
+            ReadingActivitySeeder::class,
         ]);
     }
 }
