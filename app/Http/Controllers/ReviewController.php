@@ -61,7 +61,7 @@ class ReviewController extends Controller
     public function destroy(Review $review): RedirectResponse
     {
         // Ensure user owns this review or is admin
-        if ($review->user_id !== auth()->id() && !auth()->user()->is_admin) {
+        if ($review->user_id !== auth()->id() && !auth()->user()->isAdmin()) {
             abort(403);
         }
 

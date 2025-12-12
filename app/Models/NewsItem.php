@@ -20,6 +20,19 @@ class NewsItem extends Model
     ];
 
     /**
+     * Boot method to handle cascade deletes.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (NewsItem $newsItem) {
+            // Delete image if exists
+            if ($newsItem->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($newsItem->image)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($newsItem->image);
+            }
+        });
+    }
+
+    /**
      * Get the author of the news item.
      */
     public function author(): BelongsTo

@@ -58,6 +58,47 @@ class User extends Authenticatable
     }
 
     /**
+     * Boot the model.
+     * Handle cleanup when user is deleted.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (User $user) {
+            // Reassign book clubs to first moderator or first admin
+            $createdBookClubs = $user->createdBookClubs;
+            
+            foreach ($createdBookClubs as $bookClub) {
+                // Try to find a moderator in the book club
+                $newCreator = $bookClub->members()
+                    ->wherePivot('role', 'moderator')
+                    ->where('users.id', '!=', $user->id)
+                    ->first();
+                
+                // If no moderator, find first admin user globally
+                if (!$newCreator) {
+                    $newCreator = User::where('is_admin', true)
+                        ->where('id', '!=', $user->id)
+                        ->first();
+                }
+                
+                // Update book club creator
+                if ($newCreator) {
+                    $bookClub->creator_id = $newCreator->id;
+                    $bookClub->save();
+                    
+                    // Make sure new creator is a moderator in the club
+                    $bookClub->members()->syncWithoutDetaching([
+                        $newCreator->id => ['role' => 'moderator']
+                    ]);
+                } else {
+                    // If no suitable replacement found, creator will be set to null by database
+                    // Book club will remain orphaned but visible
+                }
+            }
+        });
+    }
+
+    /**
      * Check if the user is an admin.
      */
     public function isAdmin(): bool

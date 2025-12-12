@@ -14,6 +14,17 @@ class FaqCategory extends Model
     ];
 
     /**
+     * Boot method to handle cascade deletes.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (FaqCategory $category) {
+            // Delete all FAQ items in this category
+            $category->faqItems()->delete();
+        });
+    }
+
+    /**
      * Get the FAQ items in this category.
      */
     public function faqItems(): HasMany

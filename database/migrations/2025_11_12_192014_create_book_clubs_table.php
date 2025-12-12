@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('image')->nullable();
-            $table->foreignId('creator_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('creator_id')->nullable()->constrained('users')->onDelete('set null');
             $table->boolean('is_private')->default(false);
             $table->timestamps();
         });

@@ -90,7 +90,7 @@ class NewsController extends Controller
         // Handle image upload
         if ($request->hasFile('image')) {
             // Delete old image if exists
-            if ($newsItem->image) {
+            if ($newsItem->image && Storage::disk('public')->exists($newsItem->image)) {
                 Storage::disk('public')->delete($newsItem->image);
             }
             $validated['image'] = $request->file('image')->store('news', 'public');
@@ -110,7 +110,7 @@ class NewsController extends Controller
         $newsItem = NewsItem::findOrFail($id);
         
         // Delete image if exists
-        if ($newsItem->image) {
+        if ($newsItem->image && Storage::disk('public')->exists($newsItem->image)) {
             Storage::disk('public')->delete($newsItem->image);
         }
 
