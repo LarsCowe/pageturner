@@ -37,10 +37,10 @@ class ContactRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'name' => 'naam',
-            'email' => 'e-mailadres',
-            'subject' => 'onderwerp',
-            'message' => 'bericht',
+            'name' => 'name',
+            'email' => 'email address',
+            'subject' => 'subject',
+            'message' => 'message',
         ];
     }
 }
