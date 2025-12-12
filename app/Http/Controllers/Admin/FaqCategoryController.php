@@ -59,19 +59,16 @@ class FaqCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id): View
+    public function edit(FaqCategory $category): View
     {
-        $category = FaqCategory::findOrFail($id);
         return view('admin.faq.categories.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, FaqCategory $category): RedirectResponse
     {
-        $category = FaqCategory::findOrFail($id);
-        
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:faq_categories,name,' . $category->id,
         ], [
@@ -92,9 +89,8 @@ class FaqCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id): RedirectResponse
+    public function destroy(FaqCategory $category): RedirectResponse
     {
-        $category = FaqCategory::findOrFail($id);
         $category->delete();
 
         return redirect()->route('admin.faq.categories.index')

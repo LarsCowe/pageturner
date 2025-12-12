@@ -69,19 +69,16 @@ class NewsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id): View
+    public function edit(NewsItem $newsItem): View
     {
-        $newsItem = NewsItem::findOrFail($id);
         return view('admin.news.edit', compact('newsItem'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, NewsItem $newsItem): RedirectResponse
     {
-        $newsItem = NewsItem::findOrFail($id);
-        
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
@@ -107,10 +104,8 @@ class NewsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id): RedirectResponse
+    public function destroy(NewsItem $newsItem): RedirectResponse
     {
-        $newsItem = NewsItem::findOrFail($id);
-        
         // Delete image if exists
         if ($newsItem->image && Storage::disk('public')->exists($newsItem->image)) {
             Storage::disk('public')->delete($newsItem->image);

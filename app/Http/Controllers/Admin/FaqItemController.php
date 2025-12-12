@@ -83,9 +83,9 @@ class FaqItemController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id): View
+    public function edit(FaqItem $item): View
     {
-        $item = FaqItem::with('category')->findOrFail($id);
+        $item->load('category');
         $categories = FaqCategory::orderBy('order')->get();
         
         return view('admin.faq.items.edit', compact('item', 'categories'));
@@ -94,10 +94,8 @@ class FaqItemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, FaqItem $item): RedirectResponse
     {
-        $item = FaqItem::findOrFail($id);
-        
         $validated = $request->validate([
             'faq_category_id' => 'required|exists:faq_categories,id',
             'question' => 'required|string|max:255',
@@ -124,9 +122,8 @@ class FaqItemController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id): RedirectResponse
+    public function destroy(FaqItem $item): RedirectResponse
     {
-        $item = FaqItem::findOrFail($id);
         $item->delete();
 
         return redirect()->route('admin.faq.items.index')
