@@ -28,14 +28,24 @@ class BookController extends Controller
         // Filter by genre
         if ($request->filled('genre')) {
             $query->whereHas('genres', function($q) use ($request) {
-                $q->where('genres.id', $request->genre);
+                // Support both ID and slug
+                if (is_numeric($request->genre)) {
+                    $q->where('genres.id', $request->genre);
+                } else {
+                    $q->where('genres.slug', $request->genre);
+                }
             });
         }
 
         // Filter by mood
         if ($request->filled('mood')) {
             $query->whereHas('moods', function($q) use ($request) {
-                $q->where('moods.id', $request->mood);
+                // Support both ID and slug
+                if (is_numeric($request->mood)) {
+                    $q->where('moods.id', $request->mood);
+                } else {
+                    $q->where('moods.slug', $request->mood);
+                }
             });
         }
 
