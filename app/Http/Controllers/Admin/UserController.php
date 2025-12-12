@@ -122,6 +122,12 @@ class UserController extends Controller
                 ->with('error', 'You cannot delete your own account.');
         }
 
+        // Prevent deleting the last admin
+        if ($user->is_admin && User::where('is_admin', true)->count() <= 1) {
+            return redirect()->route('admin.users.index')
+                ->with('error', 'Cannot delete the last admin user. Promote another user to admin first.');
+        }
+
         // Delete avatar if exists
         if ($user->avatar) {
             Storage::disk('public')->delete($user->avatar);
@@ -142,6 +148,12 @@ class UserController extends Controller
         if ($user->id === auth()->id()) {
             return redirect()->route('admin.users.index')
                 ->with('error', 'You cannot change your own admin status.');
+        }
+
+        // Prevent demoting the last admin
+        if ($user->is_admin && User::where('is_admin', true)->count() <= 1) {
+            return redirect()->route('admin.users.index')
+                ->with('error', 'Cannot demote the last admin user. Promote another user to admin first.');
         }
 
         $user->is_admin = !$user->is_admin;
