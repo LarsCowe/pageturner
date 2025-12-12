@@ -46,19 +46,14 @@
                                 <p class="text-gray-700 mt-4">{{ $user->bio }}</p>
                             @endif
 
-                            @if($user->favorite_genres && count($user->favorite_genres) > 0)
+                            @if($favoriteGenres->count() > 0)
                                 <div class="mt-4">
                                     <span class="text-sm font-semibold text-gray-600">Favorite Genres:</span>
                                     <div class="flex flex-wrap gap-2 mt-2">
-                                        @foreach($user->favorite_genres as $genreId)
-                                            @php
-                                                $genre = \App\Models\Genre::find($genreId);
-                                            @endphp
-                                            @if($genre)
-                                                <span class="px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-sm">
-                                                    {{ $genre->name }}
-                                                </span>
-                                            @endif
+                                        @foreach($favoriteGenres as $genre)
+                                            <span class="px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-sm">
+                                                {{ $genre->name }}
+                                            </span>
                                         @endforeach
                                     </div>
                                 </div>

@@ -57,7 +57,13 @@ class ProfileController extends Controller
                 ->take(6),
         ];
 
-        return view('profile.show', compact('user', 'stats', 'shelves'));
+        // Pre-load favorite genres to avoid N+1 query in view
+        $favoriteGenres = collect();
+        if ($user->favorite_genres && count($user->favorite_genres) > 0) {
+            $favoriteGenres = Genre::whereIn('id', $user->favorite_genres)->get();
+        }
+
+        return view('profile.show', compact('user', 'stats', 'shelves', 'favoriteGenres'));
     }
 
     /**
