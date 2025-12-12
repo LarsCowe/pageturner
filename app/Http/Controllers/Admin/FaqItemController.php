@@ -5,14 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\FaqCategory;
 use App\Models\FaqItem;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class FaqItemController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $query = FaqItem::with('category');
 
@@ -38,7 +40,7 @@ class FaqItemController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create(Request $request): View
     {
         $categories = FaqCategory::orderBy('order')->get();
         $selectedCategory = $request->get('category');
@@ -49,7 +51,7 @@ class FaqItemController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'faq_category_id' => 'required|exists:faq_categories,id',
@@ -81,7 +83,7 @@ class FaqItemController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit($id): View
     {
         $item = FaqItem::with('category')->findOrFail($id);
         $categories = FaqCategory::orderBy('order')->get();
@@ -92,7 +94,7 @@ class FaqItemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): RedirectResponse
     {
         $item = FaqItem::findOrFail($id);
         
@@ -122,7 +124,7 @@ class FaqItemController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy($id): RedirectResponse
     {
         $item = FaqItem::findOrFail($id);
         $item->delete();

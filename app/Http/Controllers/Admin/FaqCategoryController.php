@@ -4,15 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\FaqCategory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class FaqCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $categories = FaqCategory::withCount('faqItems')
             ->orderBy('order')
@@ -24,7 +26,7 @@ class FaqCategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         return view('admin.faq.categories.create');
     }
@@ -32,7 +34,7 @@ class FaqCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:faq_categories,name',
@@ -57,7 +59,7 @@ class FaqCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit($id): View
     {
         $category = FaqCategory::findOrFail($id);
         return view('admin.faq.categories.edit', compact('category'));
@@ -66,7 +68,7 @@ class FaqCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): RedirectResponse
     {
         $category = FaqCategory::findOrFail($id);
         
@@ -90,7 +92,7 @@ class FaqCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy($id): RedirectResponse
     {
         $category = FaqCategory::findOrFail($id);
         $category->delete();
