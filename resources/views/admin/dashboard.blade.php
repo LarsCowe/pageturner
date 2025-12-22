@@ -1,73 +1,97 @@
 <x-admin-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Admin Dashboard') }}
-        </h2>
-    </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            
+            <!-- Welcome Section -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6 text-gray-900">
-                    <h3 class="text-2xl font-bold mb-4">Welcome to PageTurner Admin Panel! 📚</h3>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                        <!-- Stats Card -->
-                        <div class="bg-indigo-50 p-6 rounded-lg">
-                            <div class="text-3xl font-bold text-indigo-600">{{ \App\Models\User::count() }}</div>
-                            <div class="text-gray-600 mt-2">Total Users</div>
-                        </div>
-                        
-                        <div class="bg-green-50 p-6 rounded-lg">
-                            <div class="text-3xl font-bold text-green-600">{{ \App\Models\Book::count() }}</div>
-                            <div class="text-gray-600 mt-2">Books in Library</div>
-                        </div>
-                        
-                        <div class="bg-yellow-50 p-6 rounded-lg">
-                            <div class="text-3xl font-bold text-yellow-600">{{ \App\Models\BookClub::count() }}</div>
-                            <div class="text-gray-600 mt-2">Book Clubs</div>
-                        </div>
+                    <h3 class="text-2xl font-bold text-gray-800">Welcome back, {{ Auth::user()->name }}!</h3>
+                    <p class="mt-2 text-gray-600">Here's what's happening in PageTurner today.</p>
+                </div>
+            </div>
 
-                        <div class="bg-purple-50 p-6 rounded-lg">
-                            <div class="text-3xl font-bold text-purple-600">{{ \App\Models\NewsItem::count() }}</div>
-                            <div class="text-gray-600 mt-2">News Items</div>
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Users -->
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-indigo-500">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-indigo-100 text-indigo-500">
+                            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                            </svg>
                         </div>
-
-                        <div class="bg-pink-50 p-6 rounded-lg">
-                            <div class="text-3xl font-bold text-pink-600">{{ \App\Models\Genre::count() }}</div>
-                            <div class="text-gray-600 mt-2">Genres</div>
-                        </div>
-
-                        <div class="bg-blue-50 p-6 rounded-lg">
-                            <div class="text-3xl font-bold text-blue-600">{{ \App\Models\Mood::count() }}</div>
-                            <div class="text-gray-600 mt-2">Moods</div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-500">Total Users</p>
+                            <p class="text-2xl font-semibold text-gray-900">{{ $stats['users'] }}</p>
                         </div>
                     </div>
+                </div>
 
-                    <div class="mt-8">
-                        <h4 class="text-lg font-semibold mb-4">Database Overview</h4>
-                        <div class="space-y-2">
-                            <p class="text-gray-600">✅ Authentication system with admin roles</p>
-                            <p class="text-gray-600">✅ {{ \App\Models\Book::count() }} books with genres and moods</p>
-                            <p class="text-gray-600">✅ {{ \App\Models\FaqCategory::count() }} FAQ categories with {{ \App\Models\FaqItem::count() }} items</p>
-                            <p class="text-gray-600">✅ {{ \App\Models\NewsItem::count() }} news items published</p>
-                            <p class="text-gray-600">✅ {{ \App\Models\BookClub::count() }} book clubs created</p>
-                            <p class="text-gray-600">✅ Many-to-many relationships (Books ↔ Genres, Books ↔ Moods, Users ↔ Books, Users ↔ BookClubs)</p>
-                            <p class="text-gray-600">✅ One-to-many relationships (Users → Reviews, Books → Reviews, Categories → FAQs)</p>
+                <!-- Books -->
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-green-500">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-green-100 text-green-500">
+                            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
                         </div>
-                        
-                        <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded">
-                            <h5 class="font-semibold text-blue-900 mb-2">🎯 Next Steps:</h5>
-                            <ul class="list-disc list-inside text-blue-800 space-y-1">
-                                <li>Create controllers and views for Books, News, FAQ</li>
-                                <li>Implement search and filtering functionality</li>
-                                <li>Build book club management system</li>
-                                <li>Add contact form with email notifications</li>
-                            </ul>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-500">Books</p>
+                            <p class="text-2xl font-semibold text-gray-900">{{ $stats['books'] }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reviews -->
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-yellow-500">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-yellow-100 text-yellow-500">
+                            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-500">Reviews</p>
+                            <p class="text-2xl font-semibold text-gray-900">{{ $stats['reviews'] }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book Clubs -->
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-purple-500">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-purple-100 text-purple-500">
+                            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-500">Book Clubs</p>
+                            <p class="text-2xl font-semibold text-gray-900">{{ $stats['book_clubs'] }}</p>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Quick Actions -->
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <a href="{{ route('admin.news.create') }}" class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-50 transition">
+                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900">Write News</h5>
+                    <p class="font-normal text-gray-700">Publish a new update or announcement for the community.</p>
+                </a>
+                
+                <a href="{{ route('admin.users.index') }}" class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-50 transition">
+                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900">Manage Users</h5>
+                    <p class="font-normal text-gray-700">View user list, promote admins, or manage accounts.</p>
+                </a>
+
+                <a href="{{ route('admin.books.create') }}" class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-50 transition">
+                    <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900">Add Book</h5>
+                    <p class="font-normal text-gray-700">Add a new book to the PageTurner library.</p>
+                </a>
+            </div>
+
         </div>
     </div>
 </x-admin-layout>
