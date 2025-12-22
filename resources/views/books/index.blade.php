@@ -13,15 +13,49 @@
                                    placeholder="Search by title, author, or description..."
                                    class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
                         </div>
+
+                        <!-- Genre -->
+                        <div class="w-full md:w-48">
+                            <select name="genre" class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="">All Genres</option>
+                                @foreach($genres as $genre)
+                                    <option value="{{ $genre->slug }}" {{ request('genre') == $genre->slug ? 'selected' : '' }}>
+                                        {{ $genre->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Mood -->
+                        <div class="w-full md:w-48">
+                            <select name="mood" class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="">All Moods</option>
+                                @foreach($moods as $mood)
+                                    <option value="{{ $mood->slug }}" {{ request('mood') == $mood->slug ? 'selected' : '' }}>
+                                        {{ $mood->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Sort -->
+                        <div class="w-full md:w-48">
+                            <select name="sort" class="w-full rounded-lg border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="newest" {{ request('sort', 'newest') == 'newest' ? 'selected' : '' }}>Newest</option>
+                                <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest</option>
+                                <option value="title_asc" {{ request('sort') == 'title_asc' ? 'selected' : '' }}>Title A-Z</option>
+                                <option value="title_desc" {{ request('sort') == 'title_desc' ? 'selected' : '' }}>Title Z-A</option>
+                            </select>
+                        </div>
                         
                         <button type="submit" 
                                 class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition whitespace-nowrap">
                             Search
                         </button>
                         
-                        @if(request('search'))
+                        @if(request()->hasAny(['search', 'genre', 'mood', 'sort']))
                             <a href="{{ route('books.index') }}" 
-                               class="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition whitespace-nowrap">
+                               class="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition whitespace-nowrap flex items-center justify-center">
                                 Clear
                             </a>
                         @endif

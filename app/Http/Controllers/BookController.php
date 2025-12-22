@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Genre;
+use App\Models\Mood;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -49,9 +51,22 @@ class BookController extends Controller
             });
         }
 
-        $books = $query->orderBy('title')->paginate(12);
+        // Sorting
+        $sort = $request->input('sort', 'newest');
 
-        return view('books.index', compact('books'));
+        match ($sort) {
+            'oldest' => $query->oldest(),
+            'title_asc' => $query->orderBy('title', 'asc'),
+            'title_desc' => $query->orderBy('title', 'desc'),
+            default => $query->latest(),
+        };
+
+        $books = $query->paginate(12)->withQueryString();
+
+        $genres = Genre::orderBy('name')->get();
+        $moods = Mood::orderBy('name')->get();
+
+        return view('books.index', compact('books', 'genres', 'moods'));
     }
 
     /**
