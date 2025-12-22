@@ -37,18 +37,19 @@
                     <x-nav-link :href="route('contact.create')" :active="request()->routeIs('contact.*')">
                         {{ __('Contact') }}
                     </x-nav-link>
-                    
-                    @auth
-                        @if(Auth::user()->isAdmin())
-                            <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
-                                {{ __('Admin Panel') }}
-                            </x-nav-link>
-                        @endif
-                    @endauth
                 </div>
             </div>
 
             @auth
+                <div class="hidden sm:flex">
+                    @if(Auth::user()->isAdmin())
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
+                                {{ __('Admin Panel') }}
+                            </x-nav-link>
+                        </div>
+                    @endif
+
                 <!-- Settings Dropdown -->
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">
@@ -81,6 +82,7 @@
                             </form>
                         </x-slot>
                     </x-dropdown>
+                </div>
                 </div>
             @else
                 <!-- Guest Auth Links -->
