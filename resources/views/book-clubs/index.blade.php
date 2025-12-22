@@ -39,7 +39,7 @@
                                 </div>
                                 
                                 <!-- Club Image/Icon -->
-                                <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mb-4">
+                                <div class="w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center mb-4">
                                     @if($club->image)
                                         <img src="{{ Storage::url($club->image) }}" 
                                              alt="{{ $club->name }}"

@@ -19,7 +19,7 @@
                         <!-- Club Header -->
                         <div class="flex items-start justify-between mb-6">
                             <div class="flex items-start space-x-4 flex-1">
-                                <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                <div class="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center flex-shrink-0">
                                     @if($bookClub->image)
                                         <img src="{{ Storage::url($bookClub->image) }}" 
                                              alt="{{ $bookClub->name }}"

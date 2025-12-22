@@ -1,6 +1,6 @@
 <x-app-layout>
     <!-- Hero Banner Section -->
-    <div class="relative h-[400px] bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
+    <div class="relative h-[400px] bg-gray-900 overflow-hidden">
         <!-- Background Cover with Blur -->
         @if($book->cover_image)
             <div class="absolute inset-0 opacity-20">
@@ -10,8 +10,8 @@
             </div>
         @endif
         
-        <!-- Gradient Overlay -->
-        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/80 to-transparent"></div>
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black/50"></div>
         
         <!-- Content -->
         <div class="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -24,7 +24,7 @@
                                  alt="{{ $book->title }}"
                                  class="w-48 h-72 object-cover rounded-lg shadow-2xl ring-4 ring-white/10">
                         @else
-                            <div class="w-48 h-72 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg shadow-2xl ring-4 ring-white/10 flex items-center justify-center">
+                            <div class="w-48 h-72 bg-indigo-600 rounded-lg shadow-2xl ring-4 ring-white/10 flex items-center justify-center">
                                 <svg class="w-20 h-20 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                                 </svg>
@@ -314,7 +314,7 @@
                                                      alt="{{ $review->user->name }}"
                                                      class="w-10 h-10 rounded-full object-cover">
                                             @else
-                                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                                                <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center">
                                                     <span class="text-sm font-semibold text-white">
                                                         {{ strtoupper(substr($review->user->name, 0, 1)) }}
                                                     </span>
@@ -491,7 +491,7 @@
                     <!-- Progress Card (if user has book) -->
                     @auth
                         @if($userShelf && $userShelf->shelf === 'currently-reading')
-                            <div class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-sm p-6 text-white">
+                            <div class="bg-indigo-600 rounded-xl shadow-sm p-6 text-white">
                                 <h3 class="font-bold mb-3">Your Reading Progress</h3>
                                 @if($userShelf->current_page && $book->pages)
                                     <div class="mb-3">

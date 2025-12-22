@@ -1,6 +1,6 @@
 <x-app-layout>
-    <!-- Hero Section with Gradient -->
-    <div class="relative bg-gradient-to-br from-indigo-600 to-indigo-800 overflow-hidden pb-28">
+    <!-- Hero Section -->
+    <div class="relative bg-indigo-700 overflow-hidden pb-28">
         <div class="absolute inset-0 bg-black/10"></div>
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16">
             <div class="text-center">
@@ -43,7 +43,7 @@
             
             <!-- Compact Stats Cards -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                <div class="bg-gradient-to-br from-indigo-500 to-indigo-700 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+                <div class="bg-indigo-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
                     <div class="flex items-center justify-between mb-2">
                         <div class="text-sm font-medium opacity-90">Reading Now</div>
                         <svg class="w-8 h-8 opacity-80" fill="currentColor" viewBox="0 0 20 20">
@@ -53,7 +53,7 @@
                     <div class="text-4xl font-black">{{ $stats['currently_reading'] }}</div>
                 </div>
 
-                <div class="bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+                <div class="bg-indigo-500 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
                     <div class="flex items-center justify-between mb-2">
                         <div class="text-sm font-medium opacity-90">Wishlist</div>
                         <svg class="w-8 h-8 opacity-80" fill="currentColor" viewBox="0 0 20 20">
@@ -63,7 +63,7 @@
                     <div class="text-4xl font-black">{{ $stats['want_to_read'] }}</div>
                 </div>
 
-                <div class="bg-gradient-to-br from-gray-600 to-gray-800 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+                <div class="bg-gray-700 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
                     <div class="flex items-center justify-between mb-2">
                         <div class="text-sm font-medium opacity-90">Reviews</div>
                         <svg class="w-8 h-8 opacity-80" fill="currentColor" viewBox="0 0 20 20">
@@ -73,7 +73,7 @@
                     <div class="text-4xl font-black">{{ $stats['reviews_written'] }}</div>
                 </div>
 
-                <div class="bg-gradient-to-br from-gray-500 to-gray-700 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+                <div class="bg-gray-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
                     <div class="flex items-center justify-between mb-2">
                         <div class="text-sm font-medium opacity-90">Book Clubs</div>
                         <svg class="w-8 h-8 opacity-80" fill="currentColor" viewBox="0 0 20 20">
@@ -111,7 +111,7 @@
                                              alt="{{ $book->title }}"
                                              class="w-24 h-32 object-cover rounded-lg shadow-lg">
                                     @else
-                                        <div class="w-24 h-32 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-lg shadow-lg flex items-center justify-center flex-shrink-0">
+                                        <div class="w-24 h-32 bg-indigo-400 rounded-lg shadow-lg flex items-center justify-center flex-shrink-0">
                                             <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                                             </svg>
@@ -131,7 +131,7 @@
                                                     <span>{{ round(($book->pivot->current_page / $book->pages) * 100) }}%</span>
                                                 </div>
                                                 <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                                                    <div class="bg-gradient-to-r from-indigo-400 to-indigo-600 h-2 rounded-full transition-all duration-500" 
+                                                    <div class="bg-indigo-500 h-2 rounded-full transition-all duration-500" 
                                                          style="width: {{ ($book->pivot->current_page / $book->pages) * 100 }}%"></div>
                                                 </div>
                                             </div>
@@ -148,7 +148,7 @@
                 </div>
             @else
                 <!-- Empty State -->
-                <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-3xl p-12 text-center mb-8 border-2 border-dashed border-indigo-200">
+                <div class="bg-indigo-50 rounded-3xl p-12 text-center mb-8 border-2 border-dashed border-indigo-200">
                     <div class="inline-block p-6 bg-white rounded-full shadow-lg mb-6">
                         <svg class="w-16 h-16 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -157,7 +157,7 @@
                     <h3 class="text-2xl font-black text-gray-900 mb-3">Your Reading Journey Awaits!</h3>
                     <p class="text-gray-600 mb-8 text-lg">Discover thousands of books and start tracking your progress today.</p>
                     <a href="{{ route('books.index') }}" 
-                       class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full hover:from-indigo-700 hover:to-purple-700 transition font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                       class="inline-flex items-center gap-3 px-8 py-4 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
@@ -183,7 +183,7 @@
                                              alt="{{ $book->title }}"
                                              class="w-full aspect-[2/3] object-cover rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
                                     @else
-                                        <div class="w-full aspect-[2/3] bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105 flex items-center justify-center">
+                                        <div class="w-full aspect-[2/3] bg-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105 flex items-center justify-center">
                                             <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                                             </svg>

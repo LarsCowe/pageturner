@@ -1,6 +1,6 @@
 <x-app-layout>
     {{-- Hero Section --}}
-    <section class="relative bg-gradient-to-r from-indigo-600 to-purple-700 overflow-hidden">
+    <section class="relative bg-indigo-700 overflow-hidden">
         {{-- Background Pattern --}}
         <div class="absolute inset-0 opacity-10">
             <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -117,7 +117,7 @@
             <div class="flex flex-wrap justify-center gap-4">
                 @foreach($featuredMoods as $mood)
                     <a href="{{ route('books.index', ['mood' => $mood->slug]) }}" 
-                       class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-50 to-purple-50 hover:from-indigo-100 hover:to-purple-100 rounded-full text-gray-700 font-medium transition-all duration-200 hover:scale-105 hover:shadow-md">
+                       class="inline-flex items-center gap-2 px-6 py-3 bg-indigo-50 hover:bg-indigo-100 rounded-full text-gray-700 font-medium transition-all duration-200 hover:scale-105 hover:shadow-md">
                         @if($mood->emoji)
                             <span class="text-xl">{{ $mood->emoji }}</span>
                         @endif
@@ -155,7 +155,7 @@
                                      alt="{{ $book->title }}" 
                                      class="w-full h-full object-cover">
                             @else
-                                <div class="w-full h-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center p-4">
+                                <div class="w-full h-full bg-indigo-400 flex items-center justify-center p-4">
                                     <span class="text-white text-center font-semibold text-sm line-clamp-3">{{ $book->title }}</span>
                                 </div>
                             @endif
@@ -214,7 +214,7 @@
                                      alt="{{ $club->name }}" 
                                      class="w-full h-full object-cover">
                             @else
-                                <div class="w-full h-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center">
+                                <div class="w-full h-full bg-purple-400 flex items-center justify-center">
                                     <svg class="w-16 h-16 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     </svg>
@@ -277,7 +277,7 @@
                                      alt="{{ $news->title }}" 
                                      class="w-full h-full object-cover">
                             @else
-                                <div class="w-full h-full bg-gradient-to-br from-indigo-400 to-indigo-600 flex items-center justify-center">
+                                <div class="w-full h-full bg-indigo-500 flex items-center justify-center">
                                     <svg class="w-16 h-16 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                                     </svg>
@@ -310,7 +310,7 @@
     @endif
 
     {{-- Stats Section --}}
-    <section class="py-16 bg-gradient-to-r from-indigo-600 to-purple-700">
+    <section class="py-16 bg-indigo-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 <div>

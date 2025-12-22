@@ -42,7 +42,7 @@
             </div>
 
             <!-- Contact CTA -->
-            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8 text-center border border-blue-100">
+            <div class="bg-blue-50 rounded-xl p-8 text-center border border-blue-100">
                 <h3 class="text-xl font-bold text-gray-900 mb-2">Still need help?</h3>
                 <p class="text-gray-600 mb-6">If you can't find the answer you are looking for, please feel free to reach out to our support team.</p>
                 <a href="#" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
