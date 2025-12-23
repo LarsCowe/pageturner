@@ -53,4 +53,12 @@ class BookClub extends Model
             ->withPivot('role')
             ->withTimestamps();
     }
+
+    /**
+     * Get the posts for the book club.
+     */
+    public function posts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ClubPost::class);
+    }
 }

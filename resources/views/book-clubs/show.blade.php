@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="py-12">
+    <div class="py-12" x-data>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <!-- Back Link -->
             <div class="mb-6">
@@ -119,6 +119,39 @@
                             </div>
                         @endauth
                     </div>
+
+                    <!-- Discussions Section -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 mt-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-900">Discussions</h3>
+                            @auth
+                                @if($isMember)
+                                    <button @click="$dispatch('open-modal', 'new-post-modal')" class="text-sm text-indigo-600 hover:text-indigo-700 font-medium">
+                                        + Start Discussion
+                                    </button>
+                                @endif
+                            @endauth
+                        </div>
+
+                        @if($bookClub->posts->count() > 0)
+                            <div class="space-y-4">
+                                @foreach($bookClub->posts as $post)
+                                    <div class="border rounded-lg p-4 hover:bg-gray-50 transition">
+                                        <a href="{{ route('book-clubs.posts.show', [$bookClub, $post]) }}" class="block">
+                                            <h4 class="font-medium text-gray-900 mb-1">{{ $post->title }}</h4>
+                                            <div class="flex items-center text-sm text-gray-500 space-x-4">
+                                                <span>By {{ $post->user->name }}</span>
+                                                <span>{{ $post->created_at->diffForHumans() }}</span>
+                                                <span>{{ $post->comments->count() }} comments</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p class="text-gray-500 italic">No discussions yet. Be the first to start one!</p>
+                        @endif
+                    </div>
                 </div>
 
                 <!-- Sidebar - Members -->
@@ -167,5 +200,36 @@
                 </div>
             </div>
         </div>
+
+        <!-- New Post Modal -->
+        <x-modal name="new-post-modal" focusable>
+            <form action="{{ route('book-clubs.posts.store', $bookClub) }}" method="POST" class="p-6">
+                @csrf
+                
+                <h2 class="text-lg font-medium text-gray-900">
+                    Start a New Discussion
+                </h2>
+
+                <div class="mt-6">
+                    <x-input-label for="title" value="Title" />
+                    <x-text-input id="title" name="title" type="text" class="mt-1 block w-full" required />
+                </div>
+
+                <div class="mt-6">
+                    <x-input-label for="body" value="Content" />
+                    <textarea id="body" name="body" rows="4" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required></textarea>
+                </div>
+
+                <div class="mt-6 flex justify-end">
+                    <x-secondary-button x-on:click="$dispatch('close')">
+                        Cancel
+                    </x-secondary-button>
+
+                    <x-primary-button class="ml-3">
+                        Post Discussion
+                    </x-primary-button>
+                </div>
+            </form>
+        </x-modal>
     </div>
 </x-app-layout>

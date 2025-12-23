@@ -49,6 +49,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/book-clubs/{bookClub}/edit', [BookClubController::class, 'edit'])->name('book-clubs.edit');
     Route::patch('/book-clubs/{bookClub}', [BookClubController::class, 'update'])->name('book-clubs.update');
     Route::delete('/book-clubs/{bookClub}', [BookClubController::class, 'destroy'])->name('book-clubs.destroy');
+
+    // Book Club Discussions
+    Route::post('/book-clubs/{bookClub}/posts', [\App\Http\Controllers\ClubPostController::class, 'store'])->name('book-clubs.posts.store');
+    Route::get('/book-clubs/{bookClub}/posts/{post}', [\App\Http\Controllers\ClubPostController::class, 'show'])->name('book-clubs.posts.show');
+    Route::post('/book-clubs/posts/{post}/comments', [\App\Http\Controllers\ClubCommentController::class, 'store'])->name('book-clubs.comments.store');
 });
 
 // Public FAQ Routes

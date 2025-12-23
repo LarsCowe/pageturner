@@ -279,4 +279,14 @@ class User extends Authenticatable
             'minutes_read' => $minutesRead,
         ]);
     }
+
+    public function clubPosts(): HasMany
+    {
+        return $this->hasMany(ClubPost::class);
+    }
+
+    public function clubComments(): HasMany
+    {
+        return $this->hasMany(ClubComment::class);
+    }
 }
