@@ -74,7 +74,7 @@ class ProfileController extends Controller
         $genres = Genre::orderBy('name')->get();
         
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $request->user()->fresh(),
             'genres' => $genres,
         ]);
     }
