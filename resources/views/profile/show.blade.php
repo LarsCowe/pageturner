@@ -104,18 +104,29 @@
                             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                                 @foreach($shelves[$shelf] as $book)
                                     <div class="group">
-                                        <a href="#" class="block">
-                                            @if($book->cover_image)
-                                                <img src="{{ Storage::url($book->cover_image) }}" 
-                                                     alt="{{ $book->title }}" 
-                                                     class="w-full h-48 object-cover rounded-lg shadow-md group-hover:shadow-xl transition">
-                                            @else
-                                                <div class="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center">
-                                                    <span class="text-gray-400 text-xs text-center px-2">{{ $book->title }}</span>
-                                                </div>
-                                            @endif
-                                            <p class="mt-2 text-sm font-medium text-gray-900 line-clamp-2">{{ $book->title }}</p>
-                                            <p class="text-xs text-gray-600">{{ $book->author }}</p>
+                                        <a href="{{ route('books.show', $book) }}" class="block">
+                                            <!-- Book Cover -->
+                                            <div class="aspect-[2/3] bg-gray-100 rounded-lg overflow-hidden mb-3 shadow-md group-hover:shadow-xl transition">
+                                                @if($book->cover_image)
+                                                    <img src="{{ Storage::url($book->cover_image) }}" 
+                                                         alt="{{ $book->title }}"
+                                                         class="w-full h-full object-cover">
+                                                @else
+                                                    <div class="w-full h-full flex items-center justify-center bg-indigo-100">
+                                                        <svg class="w-12 h-12 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                                        </svg>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            
+                                            <!-- Book Info -->
+                                            <h3 class="font-semibold text-gray-900 text-sm mb-1 line-clamp-2 group-hover:text-indigo-600 transition">
+                                                {{ $book->title }}
+                                            </h3>
+                                            <p class="text-xs text-gray-600 line-clamp-1">
+                                                {{ $book->author }}
+                                            </p>
                                         </a>
                                     </div>
                                 @endforeach

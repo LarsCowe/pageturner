@@ -43,7 +43,7 @@
             
             <!-- Compact Stats Cards -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                <div class="bg-indigo-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+                <a href="{{ route('books.index', ['shelf' => 'currently-reading']) }}" class="bg-indigo-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 block">
                     <div class="flex items-center justify-between mb-2">
                         <div class="text-sm font-medium opacity-90">Reading Now</div>
                         <svg class="w-8 h-8 opacity-80" fill="currentColor" viewBox="0 0 20 20">
@@ -51,9 +51,9 @@
                         </svg>
                     </div>
                     <div class="text-4xl font-black">{{ $stats['currently_reading'] }}</div>
-                </div>
+                </a>
 
-                <div class="bg-indigo-500 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+                <a href="{{ route('books.index', ['shelf' => 'want-to-read']) }}" class="bg-indigo-500 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 block">
                     <div class="flex items-center justify-between mb-2">
                         <div class="text-sm font-medium opacity-90">Wishlist</div>
                         <svg class="w-8 h-8 opacity-80" fill="currentColor" viewBox="0 0 20 20">
@@ -61,9 +61,9 @@
                         </svg>
                     </div>
                     <div class="text-4xl font-black">{{ $stats['want_to_read'] }}</div>
-                </div>
+                </a>
 
-                <div class="bg-gray-700 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+                <a href="{{ route('profile.show', auth()->user()) }}" class="bg-gray-700 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 block">
                     <div class="flex items-center justify-between mb-2">
                         <div class="text-sm font-medium opacity-90">Reviews</div>
                         <svg class="w-8 h-8 opacity-80" fill="currentColor" viewBox="0 0 20 20">
@@ -71,9 +71,9 @@
                         </svg>
                     </div>
                     <div class="text-4xl font-black">{{ $stats['reviews_written'] }}</div>
-                </div>
+                </a>
 
-                <div class="bg-gray-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+                <a href="{{ route('book-clubs.index') }}" class="bg-gray-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 block">
                     <div class="flex items-center justify-between mb-2">
                         <div class="text-sm font-medium opacity-90">Book Clubs</div>
                         <svg class="w-8 h-8 opacity-80" fill="currentColor" viewBox="0 0 20 20">
@@ -81,7 +81,7 @@
                         </svg>
                     </div>
                     <div class="text-4xl font-black">{{ $stats['book_clubs'] }}</div>
-                </div>
+                </a>
             </div>
 
             @if($currentlyReading->count() > 0)

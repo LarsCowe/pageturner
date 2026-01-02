@@ -51,6 +51,14 @@ class BookController extends Controller
             });
         }
 
+        // Filter by shelf (authenticated users only)
+        if ($request->filled('shelf') && auth()->check()) {
+            $query->whereHas('users', function($q) use ($request) {
+                $q->where('user_id', auth()->id())
+                  ->where('shelf', $request->shelf);
+            });
+        }
+
         // Sorting
         $sort = $request->input('sort', 'newest');
 
