@@ -17,14 +17,14 @@
                 <div class="p-6 border-b">
                     <h1 class="text-2xl font-bold text-gray-900 mb-2">{{ $post->title }}</h1>
                     <div class="flex items-center text-sm text-gray-500 space-x-4">
-                        <div class="flex items-center">
+                        <a href="{{ route('profile.show', $post->user) }}" class="flex items-center hover:text-indigo-600 transition">
                             <div class="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center mr-2">
                                 <span class="text-xs font-bold text-indigo-600">
                                     {{ strtoupper(substr($post->user->name, 0, 1)) }}
                                 </span>
                             </div>
                             {{ $post->user->name }}
-                        </div>
+                        </a>
                         <span>{{ $post->created_at->format('M d, Y H:i') }}</span>
                     </div>
                 </div>
@@ -43,16 +43,20 @@
                         @foreach($post->comments as $comment)
                             <div class="flex space-x-4">
                                 <div class="flex-shrink-0">
-                                    <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-                                        <span class="text-xs font-bold text-gray-600">
-                                            {{ strtoupper(substr($comment->user->name, 0, 1)) }}
-                                        </span>
-                                    </div>
+                                    <a href="{{ route('profile.show', $comment->user) }}" class="block hover:opacity-80 transition">
+                                        <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                                            <span class="text-xs font-bold text-gray-600">
+                                                {{ strtoupper(substr($comment->user->name, 0, 1)) }}
+                                            </span>
+                                        </div>
+                                    </a>
                                 </div>
                                 <div class="flex-1">
                                     <div class="bg-white rounded-lg p-4 shadow-sm">
                                         <div class="flex items-center justify-between mb-2">
-                                            <span class="font-medium text-gray-900">{{ $comment->user->name }}</span>
+                                            <a href="{{ route('profile.show', $comment->user) }}" class="font-medium text-gray-900 hover:text-indigo-600 transition">
+                                                {{ $comment->user->name }}
+                                            </a>
                                             <span class="text-xs text-gray-500">{{ $comment->created_at->diffForHumans() }}</span>
                                         </div>
                                         <div class="text-gray-700">

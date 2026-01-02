@@ -309,17 +309,19 @@
                                     <div class="flex gap-4" x-data="{ editing: false, editRating: {{ $review->rating }}, editHoverRating: 0 }">
                                         <!-- Avatar -->
                                         <div class="flex-shrink-0">
-                                            @if($review->user->avatar)
-                                                <img src="{{ Storage::url($review->user->avatar) }}" 
-                                                     alt="{{ $review->user->name }}"
-                                                     class="w-10 h-10 rounded-full object-cover">
-                                            @else
-                                                <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center">
-                                                    <span class="text-sm font-semibold text-white">
-                                                        {{ strtoupper(substr($review->user->name, 0, 1)) }}
-                                                    </span>
-                                                </div>
-                                            @endif
+                                            <a href="{{ route('profile.show', $review->user) }}" class="block hover:opacity-80 transition">
+                                                @if($review->user->avatar)
+                                                    <img src="{{ Storage::url($review->user->avatar) }}" 
+                                                         alt="{{ $review->user->name }}"
+                                                         class="w-10 h-10 rounded-full object-cover">
+                                                @else
+                                                    <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center">
+                                                        <span class="text-sm font-semibold text-white">
+                                                            {{ strtoupper(substr($review->user->name, 0, 1)) }}
+                                                        </span>
+                                                    </div>
+                                                @endif
+                                            </a>
                                         </div>
                                         
                                         <!-- Review Content -->
@@ -328,7 +330,9 @@
                                             <div x-show="!editing">
                                                 <div class="flex items-center justify-between mb-1">
                                                     <div class="flex items-center gap-2">
-                                                        <span class="font-semibold text-gray-900">{{ $review->user->name }}</span>
+                                                        <a href="{{ route('profile.show', $review->user) }}" class="font-semibold text-gray-900 hover:text-indigo-600 transition">
+                                                            {{ $review->user->name }}
+                                                        </a>
                                                         <div class="flex items-center gap-1">
                                                             @for($i = 1; $i <= 5; $i++)
                                                                 <svg class="w-4 h-4 {{ $i <= $review->rating ? 'text-yellow-400' : 'text-gray-300' }}" 

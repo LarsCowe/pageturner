@@ -17,7 +17,7 @@
                     <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ $newsItem->title }}</h1>
                     
                     <div class="text-sm text-gray-600 mb-6">
-                        By {{ $newsItem->author->name }} • Published on {{ $newsItem->published_at->format('F j, Y') }}
+                        By <a href="{{ route('profile.show', $newsItem->author) }}" class="text-indigo-600 hover:underline">{{ $newsItem->author->name }}</a> • Published on {{ $newsItem->published_at->format('F j, Y') }}
                     </div>
 
                     <!-- Featured Image -->
