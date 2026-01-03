@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class NewsItem extends Model
 {
@@ -38,5 +39,13 @@ class NewsItem extends Model
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+    /**
+     * Get the comments for the news item.
+     */
+    public function comments(): HasMany
+    {
+        return $this->hasMany(NewsComment::class);
     }
 }
