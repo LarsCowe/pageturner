@@ -152,6 +152,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the comments on news items by the user.
+     */
+    public function newsComments(): HasMany
+    {
+        return $this->hasMany(NewsComment::class);
+    }
+
+    /**
      * Get the user's reading activities.
      */
     public function readingActivities(): HasMany
