@@ -47,6 +47,7 @@ class DatabaseSeeder extends Seeder
             ReviewSeeder::class,
             BookUserSeeder::class,
             NewsItemSeeder::class,
+            NewsCommentSeeder::class,
             FaqSeeder::class,
             BookClubSeeder::class,
             ReadingActivitySeeder::class,
