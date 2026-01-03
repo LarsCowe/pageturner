@@ -10,6 +10,7 @@ use App\Http\Controllers\BookClubController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NewsCommentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -21,6 +22,9 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 // Public News Routes
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{newsItem}', [NewsController::class, 'show'])->name('news.show');
+Route::post('/news/{newsItem}/comments', [NewsCommentController::class, 'store'])
+    ->middleware('auth')
+    ->name('news.comments.store');
 
 // Public Books Routes
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
