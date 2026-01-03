@@ -24,7 +24,7 @@ class NewsController extends Controller
      */
     public function show(NewsItem $newsItem)
     {
-        $newsItem->load('author');
+        $newsItem->load(['author', 'comments.user']);
         
         return view('news.show', compact('newsItem'));
     }
