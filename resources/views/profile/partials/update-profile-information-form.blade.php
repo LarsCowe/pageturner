@@ -8,23 +8,23 @@
         @method('patch')
 
         <!-- Avatar Upload Section -->
-        <div class="flex items-start gap-6 pb-6 border-b border-gray-200">
+        <div class="flex items-start gap-6 pb-6 border-b border-stone-800">
             <div class="flex-shrink-0">
                 @if($user->avatar)
-                    <img src="{{ Storage::url($user->avatar) }}" alt="Current avatar" class="w-20 h-20 rounded-full object-cover border-2 border-gray-200">
+                    <img src="{{ Storage::url($user->avatar) }}" alt="Current avatar" class="w-20 h-20 rounded-full object-cover border-2 border-stone-700">
                 @else
-                    <div class="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center">
-                        <span class="text-2xl font-semibold text-gray-500">
+                    <div class="w-20 h-20 rounded-full bg-stone-800 flex items-center justify-center">
+                        <span class="text-2xl font-semibold text-stone-500">
                             {{ strtoupper(substr($user->username ?? $user->name, 0, 1)) }}
                         </span>
                     </div>
                 @endif
             </div>
             <div class="flex-grow">
-                <h3 class="text-base font-semibold text-gray-900">Profile Photo</h3>
-                <p class="text-sm text-gray-500 mt-1">Upload a new photo.</p>
+                <h3 class="text-base font-semibold text-stone-200">Profile Photo</h3>
+                <p class="text-sm text-stone-400 mt-1">Upload a new photo.</p>
                 <div class="mt-3">
-                    <label for="avatar" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 cursor-pointer transition">
+                    <label for="avatar" class="inline-flex items-center px-4 py-2 bg-stone-800 border border-stone-700 rounded-lg text-sm font-medium text-stone-300 hover:bg-stone-700 cursor-pointer transition">
                         Upload
                     </label>
                     <input id="avatar" name="avatar" type="file" accept="image/*" class="hidden" />
@@ -36,29 +36,29 @@
         <!-- Form Fields -->
         <!-- Name (full width) -->
         <div>
-            <label for="name" class="block text-sm font-medium text-gray-900 mb-2">Name</label>
+            <label for="name" class="block text-sm font-medium text-stone-300 mb-2">Name</label>
             <input id="name" name="name" type="text" 
-                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                   class="w-full px-3 py-2 bg-stone-900 border border-stone-700 rounded-lg text-stone-100 focus:ring-2 focus:ring-amber-500 focus:border-transparent placeholder-stone-500" 
                    value="{{ old('name', $user->name) }}" required />
             <x-input-error class="mt-1" :messages="$errors->get('name')" />
         </div>
 
         <!-- Email (full width) -->
         <div>
-            <label for="email" class="block text-sm font-medium text-gray-900 mb-2">Email</label>
+            <label for="email" class="block text-sm font-medium text-stone-300 mb-2">Email</label>
             <input id="email" name="email" type="email" 
-                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                   class="w-full px-3 py-2 bg-stone-900 border border-stone-700 rounded-lg text-stone-100 focus:ring-2 focus:ring-amber-500 focus:border-transparent placeholder-stone-500" 
                    value="{{ old('email', $user->email) }}" required />
             <x-input-error class="mt-1" :messages="$errors->get('email')" />
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <p class="text-sm mt-1 text-gray-600">
+                <p class="text-sm mt-1 text-stone-400">
                     Your email address is unverified.
-                    <button form="send-verification" class="underline text-blue-600 hover:text-blue-800">
+                    <button form="send-verification" class="underline text-amber-500 hover:text-amber-400">
                         Click here to re-send the verification email.
                     </button>
                 </p>
                 @if (session('status') === 'verification-link-sent')
-                    <p class="mt-1 text-sm text-green-600">
+                    <p class="mt-1 text-sm text-green-400">
                         A new verification link has been sent to your email address.
                     </p>
                 @endif
@@ -68,18 +68,18 @@
         <div class="grid grid-cols-2 gap-6">
             <!-- Username -->
             <div>
-                <label for="username" class="block text-sm font-medium text-gray-900 mb-2">Username</label>
+                <label for="username" class="block text-sm font-medium text-stone-300 mb-2">Username</label>
                 <input id="username" name="username" type="text" 
-                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                       class="w-full px-3 py-2 bg-stone-900 border border-stone-700 rounded-lg text-stone-100 focus:ring-2 focus:ring-amber-500 focus:border-transparent placeholder-stone-500" 
                        value="{{ old('username', $user->username) }}" />
                 <x-input-error class="mt-1" :messages="$errors->get('username')" />
             </div>
 
             <!-- Birthday -->
             <div>
-                <label for="birthday" class="block text-sm font-medium text-gray-900 mb-2">Birthday</label>
+                <label for="birthday" class="block text-sm font-medium text-stone-300 mb-2">Birthday</label>
                 <input id="birthday" name="birthday" type="date" 
-                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                       class="w-full px-3 py-2 bg-stone-900 border border-stone-700 rounded-lg text-stone-100 focus:ring-2 focus:ring-amber-500 focus:border-transparent placeholder-stone-500 [color-scheme:dark]" 
                        value="{{ old('birthday', $user->birthday?->format('Y-m-d')) }}" />
                 <x-input-error class="mt-1" :messages="$errors->get('birthday')" />
             </div>
@@ -87,13 +87,13 @@
 
         <!-- Bio -->
         <div>
-            <label for="bio" class="block text-sm font-medium text-gray-900 mb-2">Bio</label>
+            <label for="bio" class="block text-sm font-medium text-stone-300 mb-2">Bio</label>
             <textarea id="bio" name="bio" rows="4" 
-                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                      class="w-full px-3 py-2 bg-stone-900 border border-stone-700 rounded-lg text-stone-100 focus:ring-2 focus:ring-amber-500 focus:border-transparent resize-none placeholder-stone-500"
                       placeholder="A lifelong learner and book lover. Always looking for my next great adventure between the pages...">{{ old('bio', $user->bio) }}</textarea>
             <div class="flex justify-between items-center mt-1">
                 <x-input-error :messages="$errors->get('bio')" />
-                <span class="text-xs text-gray-500">{{ strlen($user->bio ?? '') }}/1000 characters</span>
+                <span class="text-xs text-stone-500">{{ strlen($user->bio ?? '') }}/1000 characters</span>
             </div>
         </div>
 
