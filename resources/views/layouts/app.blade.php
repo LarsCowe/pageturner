@@ -9,7 +9,7 @@
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600|playfair-display:400,600,700&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -21,15 +21,17 @@
             [x-cloak] { display: none !important; }
         </style>
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+    <body class="font-sans antialiased text-stone-200 bg-stone-950">
+        <div class="min-h-screen bg-stone-950">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white shadow">
+                <header class="bg-stone-900 border-b border-stone-800 shadow-sm">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
+                        <h2 class="font-serif text-xl font-semibold text-stone-100 leading-tight">
+                            {{ $header }}
+                        </h2>
                     </div>
                 </header>
             @endisset
@@ -39,7 +41,7 @@
                 <!-- Flash Messages -->
                 @if(session('success'))
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-                        <div class="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg" role="alert">
+                        <div class="bg-green-900/50 border border-green-800 text-green-200 px-4 py-3 rounded-lg shadow-lg shadow-green-900/20" role="alert">
                             <span class="block sm:inline">{{ session('success') }}</span>
                         </div>
                     </div>
@@ -47,7 +49,7 @@
                 
                 @if(session('error'))
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-                        <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg" role="alert">
+                        <div class="bg-red-900/50 border border-red-800 text-red-200 px-4 py-3 rounded-lg shadow-lg shadow-red-900/20" role="alert">
                             <span class="block sm:inline">{{ session('error') }}</span>
                         </div>
                     </div>
