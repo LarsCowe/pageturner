@@ -4,7 +4,7 @@
             <!-- Back Link -->
             <div class="mb-6">
                 <a href="{{ route('book-clubs.show', $bookClub) }}" 
-                   class="inline-flex items-center text-indigo-600 hover:text-indigo-700 font-medium">
+                   class="inline-flex items-center text-stone-400 hover:text-amber-500 font-medium transition">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
@@ -12,31 +12,39 @@
                 </a>
             </div>
 
-            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div class="bg-stone-900 rounded-lg shadow-sm overflow-hidden border border-stone-800">
                 <!-- Post Header -->
-                <div class="p-6 border-b">
-                    <h1 class="text-2xl font-bold text-gray-900 mb-2">{{ $post->title }}</h1>
-                    <div class="flex items-center text-sm text-gray-500 space-x-4">
-                        <a href="{{ route('profile.show', $post->user) }}" class="flex items-center hover:text-indigo-600 transition">
-                            <div class="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center mr-2">
-                                <span class="text-xs font-bold text-indigo-600">
-                                    {{ strtoupper(substr($post->user->name, 0, 1)) }}
-                                </span>
+                <div class="p-6 border-b border-stone-800">
+                    <h1 class="text-3xl font-bold font-serif text-stone-100 mb-3">{{ $post->title }}</h1>
+                    <div class="flex items-center text-sm text-stone-500 space-x-4">
+                        <a href="{{ route('profile.show', $post->user) }}" class="flex items-center hover:text-amber-500 transition group">
+                            <div class="w-6 h-6 rounded-full bg-stone-800 flex items-center justify-center mr-2 ring-1 ring-stone-700 group-hover:ring-amber-500/50">
+                                @if($post->user->avatar)
+                                    <img src="{{ Storage::url($post->user->avatar) }}" class="w-full h-full rounded-full object-cover">
+                                @else 
+                                    <span class="text-xs font-bold text-stone-400 group-hover:text-amber-500">
+                                        {{ strtoupper(substr($post->user->name, 0, 1)) }}
+                                    </span>
+                                @endif
                             </div>
-                            {{ $post->user->name }}
+                            <span class="font-medium text-stone-300 group-hover:text-amber-500">{{ $post->user->name }}</span>
                         </a>
+                        <span class="text-stone-600">•</span>
                         <span>{{ $post->created_at->format('M d, Y H:i') }}</span>
                     </div>
                 </div>
 
                 <!-- Post Body -->
-                <div class="p-6 prose max-w-none">
+                <div class="p-8 prose prose-invert max-w-none text-stone-300 leading-relaxed">
                     {!! nl2br(e($post->body)) !!}
                 </div>
 
                 <!-- Comments Section -->
-                <div class="bg-gray-50 p-6 border-t">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Comments ({{ $post->comments->count() }})</h3>
+                <div class="bg-black/20 p-6 border-t border-stone-800">
+                    <h3 class="text-lg font-bold font-serif text-stone-100 mb-6 flex items-center gap-2">
+                        <span>Comments</span>
+                        <span class="bg-stone-800 text-stone-400 px-2 py-0.5 rounded-full text-xs">{{ $post->comments->count() }}</span>
+                    </h3>
 
                     <!-- Comment List -->
                     <div class="space-y-6 mb-8">
@@ -44,22 +52,27 @@
                             <div class="flex space-x-4">
                                 <div class="flex-shrink-0">
                                     <a href="{{ route('profile.show', $comment->user) }}" class="block hover:opacity-80 transition">
-                                        <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
-                                            <span class="text-xs font-bold text-gray-600">
-                                                {{ strtoupper(substr($comment->user->name, 0, 1)) }}
-                                            </span>
+                                        <div class="w-10 h-10 rounded-full bg-stone-800 flex items-center justify-center ring-1 ring-stone-700">
+                                            @if($comment->user->avatar)
+                                                <img src="{{ Storage::url($comment->user->avatar) }}" class="w-full h-full rounded-full object-cover">
+                                            @else
+                                                <span class="text-xs font-bold text-stone-400">
+                                                    {{ strtoupper(substr($comment->user->name, 0, 1)) }}
+                                                </span>
+                                            @endif
                                         </div>
                                     </a>
                                 </div>
                                 <div class="flex-1">
-                                    <div class="bg-white rounded-lg p-4 shadow-sm">
+                                    <div class="bg-stone-800 rounded-lg p-5 border border-stone-700/50 shadow-sm relative group">
+                                        <div class="absolute top-4 left-[-8px] w-2 h-2 bg-stone-800 transform rotate-45 border-l border-b border-stone-700/50"></div>
                                         <div class="flex items-center justify-between mb-2">
-                                            <a href="{{ route('profile.show', $comment->user) }}" class="font-medium text-gray-900 hover:text-indigo-600 transition">
+                                            <a href="{{ route('profile.show', $comment->user) }}" class="font-bold text-stone-200 hover:text-amber-500 transition">
                                                 {{ $comment->user->name }}
                                             </a>
-                                            <span class="text-xs text-gray-500">{{ $comment->created_at->diffForHumans() }}</span>
+                                            <span class="text-xs text-stone-500 font-medium">{{ $comment->created_at->diffForHumans() }}</span>
                                         </div>
-                                        <div class="text-gray-700">
+                                        <div class="text-stone-300/90 leading-relaxed">
                                             {!! nl2br(e($comment->body)) !!}
                                         </div>
                                     </div>
@@ -69,12 +82,16 @@
                     </div>
 
                     <!-- Reply Form -->
-                    <div class="flex space-x-4">
+                    <div class="flex space-x-4 pt-4 border-t border-stone-800/50">
                         <div class="flex-shrink-0">
-                            <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center">
-                                <span class="text-xs font-bold text-indigo-600">
-                                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                                </span>
+                            <div class="w-10 h-10 rounded-full bg-stone-800 flex items-center justify-center ring-1 ring-stone-700">
+                                @if(auth()->user()->avatar)
+                                    <img src="{{ Storage::url(auth()->user()->avatar) }}" class="w-full h-full rounded-full object-cover">
+                                @else
+                                    <span class="text-xs font-bold text-stone-400">
+                                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                                    </span>
+                                @endif
                             </div>
                         </div>
                         <div class="flex-1">
@@ -82,11 +99,11 @@
                                 @csrf
                                 <div class="mb-3">
                                     <textarea name="body" rows="3" required
-                                              class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                              class="block w-full rounded-lg bg-stone-900 border-stone-700 shadow-sm focus:border-amber-500 focus:ring-amber-500 text-stone-100 placeholder-stone-600 sm:text-sm p-3 resize-none"
                                               placeholder="Write a comment..."></textarea>
                                 </div>
                                 <div class="flex justify-end">
-                                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-sm font-medium">
+                                    <button type="submit" class="px-5 py-2 bg-amber-600 text-stone-900 rounded-lg hover:bg-amber-500 transition text-sm font-bold shadow-lg">
                                         Post Comment
                                     </button>
                                 </div>
