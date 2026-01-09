@@ -33,11 +33,17 @@ class BookClubController extends Controller
      */
     public function show(BookClub $bookClub): View
     {
-        $bookClub->load(['creator', 'members']);
-        
+        $bookClub->load([
+            'creator',
+            'members',
+            'posts' => fn($query) => $query->latest(),
+            'posts.user',
+            'posts.comments',
+        ]);
+
         $isMember = auth()->check() && $bookClub->members->contains(auth()->id());
         $userRole = null;
-        
+
         if ($isMember) {
             $userRole = $bookClub->members->find(auth()->id())->pivot->role;
         }
