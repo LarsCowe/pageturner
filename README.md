@@ -1,59 +1,203 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# PageTurner
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Een sociale boeken-community platform gebouwd met Laravel waar gebruikers boeken kunnen ontdekken, hun leesvoortgang bijhouden, reviews schrijven en deelnemen aan book clubs.
 
-## About Laravel
+## Inhoudsopgave
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- [Features](#features)
+- [Installatie](#installatie)
+- [Standaard Admin Account](#standaard-admin-account)
+- [Technische Stack](#technische-stack)
+- [Database Structuur](#database-structuur)
+- [Bronvermeldingen](#bronvermeldingen)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Publieke Features
+- **Home pagina** met featured boeken en nieuws
+- **Boeken catalogus** met zoek- en filterfunctionaliteit
+- **Nieuws sectie** met artikelen en publicatiedatums
+- **FAQ pagina** met vragen gegroepeerd per categorie
+- **Contact formulier** dat emails verstuurt naar admins
+- **Publieke profielen** van gebruikers
 
-## Learning Laravel
+### Gebruiker Features
+- **Account registratie** met email verificatie
+- **Profiel beheer** (username, verjaardag, profielfoto, bio, favoriete genres)
+- **Boekenplanken** (currently reading, read, want to read)
+- **Reviews & ratings** voor boeken
+- **Reading activities** met streak tracking
+- **Book clubs** aanmaken, joinen en discussies voeren
+- **Commentaren** op nieuwsartikelen
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Admin Features
+- **Dashboard** met overzicht
+- **Gebruikersbeheer** (aanmaken, bewerken, verwijderen, admin rechten toekennen/afnemen)
+- **Nieuws beheer** (CRUD operaties met afbeeldingen)
+- **Boeken beheer** (CRUD operaties met covers, genres, moods)
+- **FAQ beheer** (categorieën en items)
+- **Book clubs beheer**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Installatie
 
-## Laravel Sponsors
+### Vereisten
+- PHP 8.2 of hoger
+- Composer
+- Node.js & NPM
+- MySQL of andere database
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Stappen
 
-### Premium Partners
+1. **Clone de repository**
+   ```bash
+   git clone <repository-url>
+   cd pageturner
+   ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+2. **Installeer PHP dependencies**
+   ```bash
+   composer install
+   ```
 
-## Contributing
+3. **Installeer NPM dependencies**
+   ```bash
+   npm install
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. **Kopieer het environment bestand**
+   ```bash
+   cp .env.example .env
+   ```
 
-## Code of Conduct
+5. **Configureer de database in `.env`**
+   ```
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=pageturner
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+6. **Configureer mail settings in `.env`** (voor contact formulier)
+   ```
+   MAIL_MAILER=smtp
+   MAIL_HOST=your-mail-host
+   MAIL_PORT=587
+   MAIL_USERNAME=your-username
+   MAIL_PASSWORD=your-password
+   MAIL_FROM_ADDRESS="noreply@pageturner.com"
+   MAIL_FROM_NAME="PageTurner"
+   ```
 
-## Security Vulnerabilities
+7. **Genereer application key**
+   ```bash
+   php artisan key:generate
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+8. **Maak storage link aan**
+   ```bash
+   php artisan storage:link
+   ```
 
-## License
+9. **Run migrations en seeders**
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+10. **Build frontend assets**
+    ```bash
+    npm run build
+    ```
+
+11. **Start de development server**
+    ```bash
+    php artisan serve
+    ```
+
+De applicatie is nu beschikbaar op `http://localhost:8000`
+
+## Standaard Admin Account
+
+Na het seeden van de database is er een admin account beschikbaar:
+
+| Veld     | Waarde           |
+|----------|------------------|
+| Username | admin            |
+| Email    | admin@ehb.be     |
+| Password | Password!321     |
+
+## Technische Stack
+
+- **Framework:** Laravel 12
+- **Frontend:** Blade templates, Tailwind CSS, Alpine.js
+- **Database:** MySQL met Eloquent ORM
+- **Authentication:** Laravel Breeze
+- **File Storage:** Laravel Storage (public disk)
+
+## Database Structuur
+
+### Belangrijke Relaties
+
+**One-to-Many:**
+- User → Reviews
+- User → NewsItems (als auteur)
+- User → ReadingActivities
+- Book → Reviews
+- FaqCategory → FaqItems
+- BookClub → ClubPosts
+
+**Many-to-Many:**
+- User ↔ Books (via `book_user` pivot voor boekenplanken)
+- User ↔ BookClubs (via `book_club_user` pivot met rollen)
+- Book ↔ Genres (via `book_genre` pivot)
+- Book ↔ Moods (via `book_mood` pivot)
+
+### Tabellen Overzicht
+
+| Tabel | Beschrijving |
+|-------|--------------|
+| users | Gebruikers met profiel info en admin flag |
+| books | Boeken catalogus met metadata |
+| genres | Boek genres |
+| moods | Boek moods/sferen |
+| reviews | Gebruiker reviews voor boeken |
+| book_user | Pivot voor boekenplanken |
+| news_items | Nieuwsartikelen |
+| news_comments | Commentaren op nieuws |
+| faq_categories | FAQ categorieën |
+| faq_items | FAQ vragen en antwoorden |
+| book_clubs | Book clubs |
+| book_club_user | Club lidmaatschap met rollen |
+| club_posts | Discussie posts in clubs |
+| club_comments | Commentaren op club posts |
+| reading_activities | Dagelijkse leesactiviteiten |
+
+## Bronvermeldingen
+
+### Code & Tutorials
+- [Laravel 12 Documentation](https://laravel.com/docs/12.x) - Officiële Laravel documentatie
+- [Laravel Breeze](https://laravel.com/docs/12.x/starter-kits#laravel-breeze) - Authentication starter kit
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs) - CSS framework documentatie
+- [Alpine.js Documentation](https://alpinejs.dev/start-here) - JavaScript framework voor interactieve componenten
+- [Laravel Eloquent Relationships](https://laravel.com/docs/12.x/eloquent-relationships) - Database relaties
+- [Laravel File Storage](https://laravel.com/docs/12.x/filesystem) - Bestandsuploads (profielfoto's, covers, nieuws afbeeldingen)
+- [Laravel Mail](https://laravel.com/docs/12.x/mail) - Email functionaliteit voor contactformulier
+- [Laravel Middleware](https://laravel.com/docs/12.x/middleware) - Custom admin middleware
+- [Laravel Validation](https://laravel.com/docs/12.x/validation) - Form validation regels
+- [Laravel Pagination](https://laravel.com/docs/12.x/pagination) - Paginatie voor lijsten
+
+### Afbeeldingen & Assets
+- [Heroicons](https://heroicons.com/) - SVG icons gebruikt in de UI
+- Boek covers zijn placeholder afbeeldingen voor demonstratiedoeleinden
+
+### AI Tools
+- [GitHub Copilot](https://github.com/features/copilot) - AI-gestuurde code suggesties en autocompletion
+
+### Overige Bronnen
+- [Laracasts](https://laracasts.com/) - Video tutorials over Laravel
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/laravel) - Oplossingen voor specifieke problemen
+
+## Licentie
+
+Dit project is gemaakt als schoolopdracht voor de EhB.
