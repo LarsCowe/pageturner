@@ -45,17 +45,19 @@ Een sociale boeken-community platform gebouwd met Laravel waar gebruikers boeken
 
 ### Vereisten
 
--   PHP 8.2 of hoger
+-   PHP 8.2 of hoger (of gebruik **Laravel Herd** voor een alles-in-één omgeving)
 -   Composer
 -   Node.js & NPM
 -   SQLite (standaard) of MySQL
 
-### Stappen
+> **Tip:** Als je [Laravel Herd](https://herd.laravel.com) gebruikt, zijn PHP, Composer en Node.js vaak al geregeld. Je kunt het project simpelweg in je Herd directory clonen.
+
+### Stappen (Algemeen)
 
 1. **Clone de repository**
 
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/LarsCowe/pageturner.git
     cd pageturner
     ```
 
@@ -84,6 +86,11 @@ Een sociale boeken-community platform gebouwd met Laravel waar gebruikers boeken
     # Verwijder of commentarieer de overige DB_ regels voor SQLite
     ```
 
+    > **Let op:** Zorg ervoor dat je een leeg bestand aanmaakt in `database/database.sqlite`.
+    >
+    > - Windows (PowerShell): `New-Item -ItemType File database/database.sqlite`
+    > - Mac/Linux: `touch database/database.sqlite`
+
 6. **Configureer mail settings in `.env`** (voor contact formulier)
 
     ```
@@ -107,6 +114,32 @@ Een sociale boeken-community platform gebouwd met Laravel waar gebruikers boeken
     ```bash
     php artisan storage:link
     ```
+
+### Installatie via Laravel Herd (Windows/macOS)
+
+1. **Open Herd** en zorg dat Services gestart zijn.
+2. Ga naar je Herd directory in de terminal (bv. `cd ~/Herd`).
+3. Clone dit project: `git clone https://github.com/LarsCowe/pageturner.git pageturner`.
+4. Open de map: `cd pageturner`.
+5. Run de setup commandos:
+
+    ```bash
+    composer install
+    npm install
+    npm run build
+    cp .env.example .env
+    php artisan key:generate
+    php artisan storage:link
+
+    # Windows (PowerShell) - Maak database bestand aan
+    New-Item -ItemType File database/database.sqlite
+    # Of MacOS/Linux:
+    # touch database/database.sqlite
+    ```
+
+6. Zet in je `.env` file `DB_CONNECTION=sqlite`.
+7. Run migraties & seeders: `php artisan migrate:fresh --seed`.
+8. De site is nu bereikbaar via **pageturner.test** (of via de browser link in Herd).
 
 9. **Run migrations en seeders**
 
