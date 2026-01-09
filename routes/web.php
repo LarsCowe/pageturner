@@ -80,7 +80,8 @@ Route::middleware('auth')->group(function () {
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::resource('news', \App\Http\Controllers\Admin\NewsController::class);
+    Route::resource('news', \App\Http\Controllers\Admin\NewsController::class)
+        ->parameters(['news' => 'newsItem']);
     Route::resource('books', \App\Http\Controllers\Admin\BookController::class)->except(['show']);
     Route::resource('book-clubs', \App\Http\Controllers\Admin\BookClubController::class)->except(['show']);
     
