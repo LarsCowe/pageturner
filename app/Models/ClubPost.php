@@ -15,6 +15,16 @@ class ClubPost extends Model
         'body',
     ];
 
+    /**
+     * Boot method to handle cascade deletes.
+     */
+    protected static function booted(): void
+    {
+        static::deleting(function (ClubPost $post) {
+            $post->comments()->delete();
+        });
+    }
+
     public function bookClub(): BelongsTo
     {
         return $this->belongsTo(BookClub::class);

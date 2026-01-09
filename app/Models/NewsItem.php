@@ -26,6 +26,9 @@ class NewsItem extends Model
     protected static function booted(): void
     {
         static::deleting(function (NewsItem $newsItem) {
+            // Delete all comments
+            $newsItem->comments()->delete();
+
             // Delete image if exists
             if ($newsItem->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($newsItem->image)) {
                 \Illuminate\Support\Facades\Storage::disk('public')->delete($newsItem->image);

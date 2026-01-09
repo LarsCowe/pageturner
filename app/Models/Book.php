@@ -49,21 +49,53 @@ class Book extends Model
 
     /**
      * Get the calculated average rating from reviews.
+     * Uses loaded relationship if available, otherwise uses stored value.
      */
     public function getCalculatedRatingAttribute(): float
     {
-        if ($this->reviews()->count() === 0) {
-            return 0;
+        // If reviews are eager loaded, calculate from them
+        if ($this->relationLoaded('reviews')) {
+            $reviews = $this->reviews;
+            if ($reviews->isEmpty()) {
+                return 0;
+            }
+            return round($reviews->avg('rating'), 1);
         }
-        return round($this->reviews()->avg('rating'), 1);
+
+        // Fall back to stored value to avoid N+1
+        return (float) ($this->average_rating ?? 0);
     }
 
     /**
      * Get the actual reviews count.
+     * Uses loaded relationship or withCount if available, otherwise uses stored value.
      */
     public function getReviewsCountAttribute(): int
     {
-        return $this->reviews()->count();
+        // If reviews_count was eager loaded with withCount('reviews')
+        if (isset($this->attributes['reviews_count'])) {
+            return (int) $this->attributes['reviews_count'];
+        }
+
+        // If reviews are eager loaded, count them
+        if ($this->relationLoaded('reviews')) {
+            return $this->reviews->count();
+        }
+
+        // Fall back to stored value to avoid N+1
+        return (int) ($this->ratings_count ?? 0);
+    }
+
+    /**
+     * Recalculate and update the stored rating values.
+     * Call this after a review is added, updated, or deleted.
+     */
+    public function updateRatingCache(): void
+    {
+        $this->update([
+            'average_rating' => $this->reviews()->avg('rating') ?? 0,
+            'ratings_count' => $this->reviews()->count(),
+        ]);
     }
 
     /**

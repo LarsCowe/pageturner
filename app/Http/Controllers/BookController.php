@@ -109,17 +109,22 @@ class BookController extends Controller
 
         // Check if book is already on a shelf
         $existingShelf = $book->users()->where('user_id', $userId)->first();
-        
+
         if ($existingShelf) {
             return redirect()->back()->with('error', 'Book is already on your shelf.');
         }
 
-        // Add to shelf
-        $book->users()->attach($userId, [
-            'shelf' => $validated['shelf'],
-            'started_at' => $validated['shelf'] === 'currently-reading' ? now() : null,
-            'finished_at' => $validated['shelf'] === 'read' ? now() : null,
-        ]);
+        // Add to shelf with race condition handling
+        try {
+            $book->users()->attach($userId, [
+                'shelf' => $validated['shelf'],
+                'started_at' => $validated['shelf'] === 'currently-reading' ? now() : null,
+                'finished_at' => $validated['shelf'] === 'read' ? now() : null,
+            ]);
+        } catch (\Illuminate\Database\UniqueConstraintViolationException $e) {
+            // Race condition: book was added between check and attach
+            return redirect()->back()->with('error', 'Book is already on your shelf.');
+        }
 
         return redirect()->back()->with('success', 'Book added to ' . ucwords(str_replace('-', ' ', $validated['shelf'])) . '!');
     }

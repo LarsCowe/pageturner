@@ -19,6 +19,24 @@ class Review extends Model
     ];
 
     /**
+     * Boot method to update book rating cache when reviews change.
+     */
+    protected static function booted(): void
+    {
+        static::created(function (Review $review) {
+            $review->book->updateRatingCache();
+        });
+
+        static::updated(function (Review $review) {
+            $review->book->updateRatingCache();
+        });
+
+        static::deleted(function (Review $review) {
+            $review->book->updateRatingCache();
+        });
+    }
+
+    /**
      * Get the user who wrote the review.
      */
     public function user(): BelongsTo
