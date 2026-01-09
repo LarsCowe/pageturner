@@ -98,8 +98,8 @@ class ProfileController extends Controller
             $user->avatar = $avatarPath;
         }
 
-        // Update other fields
-        $user->fill($request->except(['avatar', 'email']));
+        // Update other fields using only validated data
+        $user->fill($request->safe()->except(['avatar', 'email']));
         
         // Handle email separately to trigger verification if changed
         if ($request->email !== $user->email) {
