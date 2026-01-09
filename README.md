@@ -93,14 +93,21 @@ Een sociale boeken-community platform gebouwd met Laravel waar gebruikers boeken
 
 6. **Configureer mail settings in `.env`** (voor contact formulier)
 
+    Standaard worden emails in de development omgeving naar de log file geschreven om te testen.
+    Gebruik hiervoor de volgende instellingen:
+
+    ```
+    MAIL_MAILER=log
+    QUEUE_CONNECTION=sync
+    ```
+
+    > **Hoe te testen:** Vul het contactformulier in op de website. De inhoud van de email verschijnt vervolgens onderaan in `storage/logs/laravel.log`.
+
+    Wil je toch een echte SMTP server (of Mailpit) gebruiken?
     ```
     MAIL_MAILER=smtp
-    MAIL_HOST=your-mail-host
-    MAIL_PORT=587
-    MAIL_USERNAME=your-username
-    MAIL_PASSWORD=your-password
-    MAIL_FROM_ADDRESS="noreply@pageturner.com"
-    MAIL_FROM_NAME="PageTurner"
+    MAIL_HOST=127.0.0.1
+    MAIL_PORT=1025
     ```
 
 7. **Genereer application key**
