@@ -63,7 +63,7 @@
                     <div class="text-4xl font-black text-stone-100">{{ $stats['want_to_read'] }}</div>
                 </a>
 
-                <a href="{{ route('profile.show', auth()->user()) }}" class="bg-stone-800 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 block border border-stone-700">
+                <a href="{{ auth()->user()->username ? route('profile.show', auth()->user()->username) : route('profile.edit') }}" class="bg-stone-800 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 block border border-stone-700">
                     <div class="flex items-center justify-between mb-2">
                         <div class="text-sm font-medium opacity-90 text-stone-300">Reviews</div>
                         <svg class="w-8 h-8 opacity-60 text-stone-400" fill="currentColor" viewBox="0 0 20 20">
