@@ -270,22 +270,34 @@ class User extends Authenticatable
     public function logReadingActivity(int $pagesRead = 0, int $minutesRead = 0): ReadingActivity
     {
         $today = now()->toDateString();
-        $existing = $this->readingActivities()->where('activity_date', $today)->first();
-        
-        if ($existing) {
-            // Increment existing activity
-            $existing->update([
-                'pages_read' => $existing->pages_read + $pagesRead,
-                'minutes_read' => $existing->minutes_read + $minutesRead,
-            ]);
-            return $existing;
+
+        // Use whereDate for reliable date comparison across database drivers
+        $activity = $this->readingActivities()
+            ->whereDate('activity_date', $today)
+            ->first();
+
+        if (!$activity) {
+            try {
+                $activity = $this->readingActivities()->create([
+                    'activity_date' => $today,
+                    'pages_read' => $pagesRead,
+                    'minutes_read' => $minutesRead,
+                ]);
+                return $activity;
+            } catch (\Illuminate\Database\UniqueConstraintViolationException $e) {
+                // Race condition: record was created between check and insert
+                $activity = $this->readingActivities()
+                    ->whereDate('activity_date', $today)
+                    ->first();
+            }
         }
-        
-        return $this->readingActivities()->create([
-            'activity_date' => $today,
-            'pages_read' => $pagesRead,
-            'minutes_read' => $minutesRead,
-        ]);
+
+        if ($activity && ($pagesRead > 0 || $minutesRead > 0)) {
+            $activity->increment('pages_read', $pagesRead);
+            $activity->increment('minutes_read', $minutesRead);
+        }
+
+        return $activity;
     }
 
     public function clubPosts(): HasMany
